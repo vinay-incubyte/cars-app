@@ -10,6 +10,8 @@ class CarsView extends StatefulWidget {
 class _CarsViewState extends State<CarsView> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(title: Text('Cars', style: TextStyle(fontSize: 24))),
+    );
   }
 }
