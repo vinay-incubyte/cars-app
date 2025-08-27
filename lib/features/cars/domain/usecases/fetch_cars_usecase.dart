@@ -7,7 +7,7 @@ class FetchCarsUsecase {
   final CarsRepository carsRepository;
   const FetchCarsUsecase({required this.carsRepository});
 
-  Future<Either<Failure,List<CarEntity>>> call(){
-    throw UnimplementedError();
+  Future<Either<Failure,List<CarEntity>>> call() async{
+    return await carsRepository.fetchCars();
   }
 }
