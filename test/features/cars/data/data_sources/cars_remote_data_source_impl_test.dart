@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cars_app/core/base_url.dart';
+import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:dio/dio.dart';
@@ -35,6 +36,15 @@ void main() {
       final actual = await carsRemoteDataSourceImpl.fetchCars();
       // assert
       expect(actual, data);
+    });
+
+    test('verify cars fetch throws Expection', () async {
+      // arrange
+      when(dio.get(GET_CARS)).thenThrow(ServerException());
+      // act
+      final call = carsRemoteDataSourceImpl.fetchCars();
+      // assert
+      expect(() async => await call, throwsA(TypeMatcher<ServerException>()));
     });
   });
 }
