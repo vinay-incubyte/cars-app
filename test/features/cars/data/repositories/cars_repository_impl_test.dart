@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cars_app/core/expections.dart';
+import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/data/repositories/cars_repository_impl.dart';
@@ -34,6 +36,15 @@ void main() {
       final response = await carsRepositoryImpl.fetchCars();
       // assert
       expect(response, (Right(carsList)));
+    });
+
+    test('Verify when fetch cars return Failure ', () async {
+      // arrange
+      when(carsRemoteDataSource.fetchCars()).thenThrow(ServerException());
+      // act
+      final response = await carsRepositoryImpl.fetchCars();
+      // assert
+      expect(response, Left(ServerFailure(msg: "Server issue")));
     });
   });
 }
