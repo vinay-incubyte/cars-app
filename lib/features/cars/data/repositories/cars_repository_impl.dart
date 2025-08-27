@@ -10,7 +10,6 @@ class CarsRepositoryImpl implements CarsRepository {
 
   @override
   Future<Either<Failure, List<CarEntity>>> fetchCars() async {
-    // TODO: implement fetchCars
-    throw UnimplementedError();
+    return Right(await carsRemoteDataSource.fetchCars());
   }
 }

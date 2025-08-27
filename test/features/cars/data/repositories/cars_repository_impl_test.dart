@@ -28,11 +28,12 @@ void main() {
       // arrange
       final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
       final car = CarModel.fromJson(jsonData);
-      when(carsRemoteDataSource.fetchCars()).thenAnswer((_) async => [car]);
+      final carsList = [car];
+      when(carsRemoteDataSource.fetchCars()).thenAnswer((_) async => carsList);
       // act
       final response = await carsRepositoryImpl.fetchCars();
       // assert
-      expect(response, Right([car]));
+      expect(response, (Right(carsList)));
     });
   });
 }
