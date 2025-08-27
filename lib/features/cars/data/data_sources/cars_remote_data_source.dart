@@ -2,6 +2,7 @@
 
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:dio/dio.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class CarsRemoteDataSource {
   Future<List<CarModel>> fetchCars();
@@ -9,6 +10,7 @@ abstract class CarsRemoteDataSource {
 
 const String GET_CARS = "/products";
 
+@LazySingleton(as: CarsRemoteDataSource)
 class CarsRemoteDataSourceImpl implements CarsRemoteDataSource {
   final Dio dio;
   const CarsRemoteDataSourceImpl({required this.dio});
