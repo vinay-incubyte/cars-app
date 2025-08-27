@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
-import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:dartz/dartz.dart';
@@ -36,6 +36,21 @@ void main() {
       when(fetchCarsUsecase.call()).thenAnswer((_) async => Right(cars));
       // act
       final expected = [CarsLoading(), CarsLoaded(cars: cars)];
+      expectLater(carsCubit.stream, emitsInOrder(expected));
+      carsCubit.fetchCars();
+      // assert
+      await untilCalled(fetchCarsUsecase.call());
+      verify(fetchCarsUsecase.call());
+      verifyNoMoreInteractions(fetchCarsUsecase);
+    });
+
+    test('verify cars fetch when failed', () async {
+      // arrange
+      when(
+        fetchCarsUsecase.call(),
+      ).thenAnswer((_) async => Left(ServerFailure(msg: "server issue")));
+       // act
+      final expected = [CarsLoading(), CarsLoadError()];
       expectLater(carsCubit.stream, emitsInOrder(expected));
       carsCubit.fetchCars();
       // assert
