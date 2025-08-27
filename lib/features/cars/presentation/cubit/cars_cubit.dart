@@ -10,6 +10,8 @@ class CarsCubit extends Cubit<CarsState> {
   final FetchCarsUsecase fetchCarsUsecase;
 
   void fetchCars() async {
-    throw UnimplementedError();
+    emit(CarsLoading());
+    final response = await fetchCarsUsecase.call();
+    response.fold((failure) {}, (cars) => emit(CarsLoaded(cars: cars)));
   }
 }
