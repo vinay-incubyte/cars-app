@@ -13,6 +13,7 @@ dependencies:
   dartz: ^0.10.1
   mockito: ^5.5.0
   dio: ^5.9.0
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:
