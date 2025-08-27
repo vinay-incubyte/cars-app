@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../../../../fixture/fixture.dart';
+import '../../../../fixtures/fixture.dart';
 
 void main() {
   test('verify car model from json', () async {
