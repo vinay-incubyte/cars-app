@@ -26,7 +26,10 @@ void main() {
         jsonDecode(await Fixture.load('car_fixture.json')),
       );
       final data = [car];
-      final response = Response(requestOptions: RequestOptions(), data: data);
+      final response = Response(
+        requestOptions: RequestOptions(),
+        data: [jsonDecode(await Fixture.load('car_fixture.json'))],
+      );
       when(dio.get(GET_CARS)).thenAnswer((_) async => response);
       // act
       final actual = await carsRemoteDataSourceImpl.fetchCars();

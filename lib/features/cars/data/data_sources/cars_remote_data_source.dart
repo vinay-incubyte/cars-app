@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:dio/dio.dart';
 
@@ -13,7 +15,9 @@ class CarsRemoteDataSourceImpl implements CarsRemoteDataSource {
 
   @override
   Future<List<CarModel>> fetchCars() async {
-    // TODO: implement fetchCars
-    throw UnimplementedError();
+    final response = await dio.get(GET_CARS);
+    final List data = response.data;
+    final cars = data.map((e) => CarModel.fromJson(e)).toList();
+    return cars;
   }
 }
