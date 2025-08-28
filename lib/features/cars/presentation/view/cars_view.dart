@@ -33,7 +33,7 @@ class _CarsViewState extends State<CarsView> {
               return ListView.separated(
                 itemBuilder: (context, index) => CarListItem(
                   car: cars[index],
-                  key: ValueKey(cars[index].id),
+                  key: ValueKey("carId_${cars[index].id}"),
                   cacheManager: cacheManager,
                 ),
                 itemCount: cars.length,

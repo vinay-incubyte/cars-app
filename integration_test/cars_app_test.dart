@@ -20,16 +20,26 @@ void main() {
       expect(find.byType(ListView), findsOneWidget);
 
       for (int i = 1; i <= 20; i++) {
-        await tester.scrollUntilVisible(find.byKey(ValueKey('$i')), 200);
-        expect(find.byKey(ValueKey('$i')), findsOneWidget);
+        await tester.scrollUntilVisible(find.byKey(ValueKey('carId_$i')), 200);
+        expect(find.byKey(ValueKey('carId_$i')), findsOneWidget);
       }
 
-      //*Tap on car item flow
+      // //*Tap on car item flow
+      await tester.scrollUntilVisible(
+        find.byKey(ValueKey("carId_1")),
+        -200,
+        scrollable: find.byType(Scrollable),
+      );
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(ValueKey("carId_1")));
       await tester.pumpAndSettle();
 
       expect(find.byType(Text), findsExactly(6));
       expect(find.byType(CachedNetworkImage), findsOneWidget);
+
+      //* Tap back button on car details
+      await tester.tap(find.backButton());
+      await tester.pumpAndSettle();
     });
   });
 }

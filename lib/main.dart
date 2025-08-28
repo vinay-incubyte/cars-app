@@ -1,6 +1,6 @@
 import 'package:cars_app/di.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
-import 'package:cars_app/features/cars/presentation/view/cars_view.dart';
+import 'package:cars_app/routes/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +16,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<CarsCubit>(),
-      child: const MaterialApp(home: CarsView()),
+      child: const MaterialApp(
+        onGenerateRoute: AppRouter.generateRoute,
+      ),
     );
   }
 }
