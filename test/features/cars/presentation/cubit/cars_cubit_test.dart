@@ -49,8 +49,8 @@ void main() {
       when(
         fetchCarsUsecase.call(),
       ).thenAnswer((_) async => Left(ServerFailure(msg: "server issue")));
-       // act
-      final expected = [CarsLoading(), CarsLoadError()];
+      // act
+      final expected = [CarsLoading(), CarsLoadError(error: "server issue")];
       expectLater(carsCubit.stream, emitsInOrder(expected));
       carsCubit.fetchCars();
       // assert

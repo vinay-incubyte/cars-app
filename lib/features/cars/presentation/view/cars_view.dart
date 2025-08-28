@@ -1,5 +1,6 @@
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
+import 'package:cars_app/features/cars/presentation/view/error/cars_list_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -39,7 +40,10 @@ class _CarsViewState extends State<CarsView> {
                 separatorBuilder: (context, index) => SizedBox(height: 10),
               );
             }
-            return Placeholder();
+            if (state is CarsLoadError) {
+              return CarsListError(error: state.error);
+            }
+            return SizedBox.shrink();
           },
         ),
       ),

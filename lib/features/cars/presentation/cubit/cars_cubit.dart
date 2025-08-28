@@ -14,7 +14,7 @@ class CarsCubit extends Cubit<CarsState> {
     emit(CarsLoading());
     final response = await fetchCarsUsecase.call();
     response.fold(
-      (failure) => emit(CarsLoadError()),
+      (failure) => emit(CarsLoadError(error: failure.msg)),
       (cars) => emit(CarsLoaded(cars: cars)),
     );
   }

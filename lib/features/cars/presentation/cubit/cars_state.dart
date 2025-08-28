@@ -19,4 +19,10 @@ final class CarsLoaded extends CarsState {
   List<Object> get props => [super.props, cars];
 }
 
-final class CarsLoadError extends CarsState {}
+final class CarsLoadError extends CarsState {
+  final String error;
+  const CarsLoadError({required this.error});
+
+  @override
+  List<Object> get props => [super.props, error];
+}
