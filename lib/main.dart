@@ -1,5 +1,8 @@
 import 'package:cars_app/di.dart';
+import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
+import 'package:cars_app/features/cars/presentation/view/cars_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   configureDependencies();
@@ -11,12 +14,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return BlocProvider(
+      create: (context) => getIt<CarsCubit>(),
+      child: const MaterialApp(home: CarsView()),
     );
   }
 }
