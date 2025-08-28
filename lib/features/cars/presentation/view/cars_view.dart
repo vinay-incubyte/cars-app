@@ -28,13 +28,13 @@ class _CarsViewState extends State<CarsView> {
       body: Center(
         child: BlocBuilder<CarsCubit, CarsState>(
           builder: (context, state) {
-            if (state is CarsLoading) return CircularProgressIndicator();
             if (state is CarsLoaded) {
               final cars = state.cars;
               return ListView.separated(
                 itemBuilder: (context, index) => CarListItem(
                   car: cars[index],
                   key: ValueKey(cars[index].id),
+                  cacheManager: cacheManager,
                 ),
                 itemCount: cars.length,
                 separatorBuilder: (context, index) => SizedBox(height: 10),
@@ -43,7 +43,7 @@ class _CarsViewState extends State<CarsView> {
             if (state is CarsLoadError) {
               return CarsListError(error: state.error);
             }
-            return SizedBox.shrink();
+            return CircularProgressIndicator();
           },
         ),
       ),

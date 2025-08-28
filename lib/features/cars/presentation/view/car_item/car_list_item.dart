@@ -20,7 +20,6 @@ class CarListItem extends StatelessWidget {
               borderRadius: BorderRadiusGeometry.circular(5),
               child: CachedNetworkImage(
                 cacheManager: cacheManager,
-                key: ValueKey(car.id),
                 imageUrl: car.image,
                 fit: BoxFit.contain,
                 height: 200,
