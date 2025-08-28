@@ -1,9 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
 import 'package:cars_app/features/cars/presentation/view/cars_view.dart';
+import 'package:cars_app/features/cars/presentation/view/error/cars_list_error.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -97,6 +99,21 @@ void main() {
       expect(find.byType(CarListItem), findsOneWidget);
       expect(find.byType(Text), findsOneWidget);
       expect(find.byType(CachedNetworkImage), findsOneWidget);
+    });
+
+    testWidgets('verify error widget when load cars failed', (tester) async {
+      // arrange
+      when(fetchCarsUsecase.call()).thenAnswer((_) async {
+        await Future.delayed(Duration.zero);
+        return Left(ServerFailure(msg: 'Server issue'));
+      });
+      // act
+      await tester.pumpWidget(loadPageView());
+      await tester.pumpAndSettle();
+      //* data loaded
+      // assert
+      expect(find.byType(CarsListError), findsOneWidget);
+      expect(find.text('Server issue'), findsOneWidget);
     });
   });
 }
