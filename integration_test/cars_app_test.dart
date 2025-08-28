@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cars_app/main.dart' as app;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -22,6 +23,13 @@ void main() {
         await tester.scrollUntilVisible(find.byKey(ValueKey('$i')), 200);
         expect(find.byKey(ValueKey('$i')), findsOneWidget);
       }
+
+      //*Tap on car item flow
+      await tester.tap(find.byKey(ValueKey("carId_1")));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(Text), findsExactly(6));
+      expect(find.byType(CachedNetworkImage), findsOneWidget);
     });
   });
 }
