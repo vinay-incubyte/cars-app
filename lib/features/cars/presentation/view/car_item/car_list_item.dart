@@ -10,27 +10,30 @@ class CarListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Card(
+    return Card(
+      color: Colors.white,
+      margin: EdgeInsets.all(8),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           spacing: 20,
           children: [
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(5),
-              child: CachedNetworkImage(
-                cacheManager: cacheManager,
-                imageUrl: car.image,
-                fit: BoxFit.contain,
-                height: 200,
-                width: 200,
-                memCacheWidth: 200,
-              ),
+            CachedNetworkImage(
+              cacheManager: cacheManager,
+              imageUrl: car.image,
+              fit: BoxFit.fitWidth,
+              height: 150,
+              width: 200,
+              memCacheWidth: 200,
             ),
             Flexible(
               child: Text(
                 car.name,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
               ),
             ),
           ],
