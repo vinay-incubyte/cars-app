@@ -69,7 +69,10 @@ void main() {
       await tester.pumpAndSettle();
       //* data loaded success
       // assert
-      expect(find.byType(CarListItem), findsExactly(10));
+      expect(
+        (tester.widget(find.byType(ListView)) as ListView).semanticChildCount,
+        10,
+      );
     });
 
     testWidgets('verify Car item details', (tester) async {

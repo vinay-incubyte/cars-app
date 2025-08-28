@@ -2,6 +2,7 @@ import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 class CarsView extends StatefulWidget {
   const CarsView({super.key});
@@ -11,6 +12,8 @@ class CarsView extends StatefulWidget {
 }
 
 class _CarsViewState extends State<CarsView> {
+  final cacheManager = DefaultCacheManager();
+
   @override
   void initState() {
     Future.microtask(context.read<CarsCubit>().fetchCars);
@@ -28,7 +31,10 @@ class _CarsViewState extends State<CarsView> {
             if (state is CarsLoaded) {
               final cars = state.cars;
               return ListView.separated(
-                itemBuilder: (context, index) => CarListItem(car: cars[index]),
+                itemBuilder: (context, index) => CarListItem(
+                  car: cars[index],
+                  key: ValueKey(cars[index].id),
+                ),
                 itemCount: cars.length,
                 separatorBuilder: (context, index) => SizedBox(height: 10),
               );
