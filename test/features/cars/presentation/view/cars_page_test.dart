@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
@@ -69,6 +70,30 @@ void main() {
       //* data loaded success
       // assert
       expect(find.byType(CarListItem), findsExactly(10));
+    });
+
+    testWidgets('verify Car item details', (tester) async {
+      // arrange
+      final car = CarModel(
+        id: "1",
+        name: 'Mercedes Benz Mercielago',
+        manufacturer: 'Mazda',
+        model: 'Cruze',
+        fuel: 'Gasoline',
+        type: 'Crew Cab Pickup',
+        image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
+      );
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Material(child: CarListItem(car: car)),
+        ),
+      );
+      await tester.pumpAndSettle();
+      //* data loaded success
+      // assert
+      expect(find.byType(CarListItem), findsOneWidget);
+      expect(find.byType(Text), findsOneWidget);
+      expect(find.byType(CachedNetworkImage), findsOneWidget);
     });
   });
 }
