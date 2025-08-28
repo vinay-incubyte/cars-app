@@ -1,6 +1,7 @@
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
+import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
 import 'package:cars_app/features/cars/presentation/view/cars_view.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,15 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       await tester.pumpAndSettle();
       expect(find.byType(ListView), findsOneWidget);
+    });
+
+    testWidgets('verify list view items - Cars', (tester) async {
+      // arrange
+      await tester.pumpWidget(loadPageView());
+      await tester.pumpAndSettle();
+      //* data loaded success
+      // assert
+      expect(find.byType(CarListItem), findsExactly(10));
     });
   });
 }
