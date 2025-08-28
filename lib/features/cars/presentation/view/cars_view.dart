@@ -1,4 +1,5 @@
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
+import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,9 +26,10 @@ class _CarsViewState extends State<CarsView> {
           builder: (context, state) {
             if (state is CarsLoading) return CircularProgressIndicator();
             if (state is CarsLoaded) {
+              final cars = state.cars;
               return ListView.separated(
-                itemBuilder: (context, index) => Text("data"),
-                itemCount: state.cars.length,
+                itemBuilder: (context, index) => CarListItem(car: cars[index]),
+                itemCount: cars.length,
                 separatorBuilder: (context, index) => SizedBox(height: 10),
               );
             }
