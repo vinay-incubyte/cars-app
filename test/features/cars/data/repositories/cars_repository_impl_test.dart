@@ -89,7 +89,7 @@ void main() {
         // act
         final actual = await carsRepositoryImpl.fetchCars();
         // assert
-        expect(actual, cars);
+        expect(actual, Right(cars));
         verify(carsLocalDataSource.getCache()).called(1);
         verifyZeroInteractions(carsRemoteDataSource);
       });

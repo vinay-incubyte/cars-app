@@ -22,12 +22,17 @@ class CarsRepositoryImpl implements CarsRepository {
   @override
   Future<Either<Failure, List<CarEntity>>> fetchCars() async {
     final connected = await networkInfo.isConnected();
-    try {
-      final cars = await carsRemoteDataSource.fetchCars();
-      carsLocalDataSource.setCache(cars);
+    if (connected) {
+      try {
+        final cars = await carsRemoteDataSource.fetchCars();
+        carsLocalDataSource.setCache(cars);
+        return Right(cars);
+      } on ServerException catch (_) {
+        return Left(ServerFailure(msg: "Server issue"));
+      }
+    } else {
+      final cars = await carsLocalDataSource.getCache();
       return Right(cars);
-    } on ServerException catch (_) {
-      return Left(ServerFailure(msg: "Server issue"));
     }
   }
 }
