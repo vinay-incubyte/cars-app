@@ -116,5 +116,30 @@ void main() {
       expect(find.byType(CarsListError), findsOneWidget);
       expect(find.text('Server issue'), findsOneWidget);
     });
+
+    testWidgets('verify network banner when showing cache data if available', (
+      tester,
+    ) async {
+      // arrange
+      final carsList = List.generate(
+        10,
+        (index) => CarModel(
+          id: "${index + 1}",
+          name: 'Mercedes Benz Mercielago',
+          manufacturer: 'Mazda',
+          model: 'Cruze',
+          fuel: 'Gasoline',
+          type: 'Crew Cab Pickup',
+          image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
+        ),
+      );
+      when(fetchCarsUsecase.call()).thenAnswer((_) async {
+        return Right(CarResponseEntity(isConnected: false, cars: carsList));
+      });
+      // act
+      await tester.pumpWidget(loadPageView());
+      // assert
+      expect(find.text('No Internet, showing cached data'), findsOne);
+    });
   });
 }
