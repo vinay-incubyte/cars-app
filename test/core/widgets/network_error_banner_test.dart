@@ -17,7 +17,7 @@ void main() {
     testWidgets('when No network, banner will show', (tester) async {
       // arrange
       await tester.pumpWidget(
-        Material(child: NetworkErrorBanner(isConnected: false)),
+        MaterialApp(home: NetworkErrorBanner(isConnected: false)),
       );
       await tester.pumpAndSettle();
       // assert
