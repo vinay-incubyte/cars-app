@@ -74,6 +74,24 @@ void main() {
         final response = await carsRepositoryImpl.fetchCars();
         // assert
         expect(response, Left(ServerFailure(msg: "Server issue")));
+        verify(carsRemoteDataSource.fetchCars()).called(1);
+        verifyZeroInteractions(carsLocalDataSource);
+      });
+    });
+
+    group('verify Local source when no internet', () {
+      test('verify fetch cars when exsist in local DB', () async {
+        // arrange
+        simulateNetwork(false);
+        final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
+        final cars = [CarModel.fromJson(jsonData)];
+        when(carsLocalDataSource.getCache()).thenAnswer((_) async => cars);
+        // act
+        final actual = await carsRepositoryImpl.fetchCars();
+        // assert
+        expect(actual, cars);
+        verify(carsLocalDataSource.getCache()).called(1);
+        verifyZeroInteractions(carsRemoteDataSource);
       });
     });
   });
