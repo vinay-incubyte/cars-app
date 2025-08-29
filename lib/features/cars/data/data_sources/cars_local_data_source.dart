@@ -1,5 +1,6 @@
 import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
+import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class CarsLocalDataSource {
@@ -10,6 +11,7 @@ abstract class CarsLocalDataSource {
 // ignore: constant_identifier_names
 const String CARS_TABLE = 'cars';
 
+@LazySingleton(as: CarsLocalDataSource)
 class CarsLocalDataSourceImpl implements CarsLocalDataSource {
   final Database db;
   const CarsLocalDataSourceImpl({required this.db});
