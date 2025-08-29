@@ -24,13 +24,17 @@ class CarListItem extends StatelessWidget {
           child: Row(
             spacing: 20,
             children: [
-              CachedNetworkImage(
-                cacheManager: cacheManager,
-                imageUrl: car.image,
-                fit: BoxFit.fitWidth,
-                height: 150,
-                width: 200,
-                memCacheWidth: 200,
+              Hero(
+                tag: car.id,
+                transitionOnUserGestures: true,
+                child: CachedNetworkImage(
+                  cacheManager: cacheManager,
+                  imageUrl: car.image,
+                  fit: BoxFit.fitWidth,
+                  height: 150,
+                  width: 200,
+                  memCacheWidth: 200,
+                ),
               ),
               Flexible(
                 child: Text(
