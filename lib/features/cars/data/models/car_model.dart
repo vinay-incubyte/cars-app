@@ -23,7 +23,15 @@ class CarModel extends CarEntity {
     );
   }
 
-  Map<String,String> toMap(){
-    throw UnimplementedError();
+  Map<String, String> toMap() {
+    return {
+      "vehicle": name,
+      "model": model,
+      "type": type,
+      "manufacturer": manufacturer,
+      "fuel": fuel,
+      "id": id,
+      "image": image,
+    };
   }
 }
