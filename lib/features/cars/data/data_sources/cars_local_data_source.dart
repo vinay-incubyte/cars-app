@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 
 abstract class CarsLocalDataSource {
   Future<List<CarModel>> getCache();
-  Future<bool> setCache(List<CarModel> cars);
+  Future<void> setCache(List<CarModel> cars);
 }
 
 // ignore: constant_identifier_names
@@ -24,8 +24,12 @@ class CarsLocalDataSourceImpl implements CarsLocalDataSource {
   }
 
   @override
-  Future<bool> setCache(List<CarModel> cars) {
-    // TODO: implement setCache
-    throw UnimplementedError();
+  Future<void> setCache(List<CarModel> cars) async {
+    final batch = db.batch();
+    await db.delete(CARS_TABLE);
+    for (final car in cars) {
+      batch.insert(CARS_TABLE, car.toMap());
+    }
+    await batch.commit(noResult: true);
   }
 }
