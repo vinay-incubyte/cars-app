@@ -21,6 +21,7 @@ class CarsRepositoryImpl implements CarsRepository {
 
   @override
   Future<Either<Failure, List<CarEntity>>> fetchCars() async {
+    final connected = await networkInfo.isConnected();
     try {
       return Right(await carsRemoteDataSource.fetchCars());
     } on ServerException catch (_) {

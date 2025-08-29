@@ -49,6 +49,7 @@ void main() {
     });
     test('Verify when cars fetch from Remote source successful', () async {
       // arrange
+      _simulateNetwork(true);
       final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
       final car = CarModel.fromJson(jsonData);
       final carsList = [car];
@@ -62,6 +63,7 @@ void main() {
 
     test('Verify when fetch cars return Failure ', () async {
       // arrange
+      _simulateNetwork(true);
       when(carsRemoteDataSource.fetchCars()).thenThrow(ServerException());
       // act
       final response = await carsRepositoryImpl.fetchCars();
