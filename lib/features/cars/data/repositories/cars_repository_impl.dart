@@ -1,5 +1,6 @@
 import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/core/failure.dart';
+import 'package:cars_app/core/mixns/logger_mixin.dart';
 import 'package:cars_app/core/platforms/network_info.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart';
@@ -9,7 +10,7 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @LazySingleton(as: CarsRepository)
-class CarsRepositoryImpl implements CarsRepository {
+class CarsRepositoryImpl with LoggerMixin implements CarsRepository {
   final CarsRemoteDataSource carsRemoteDataSource;
   final CarsLocalDataSource carsLocalDataSource;
   final NetworkInfo networkInfo;
@@ -22,19 +23,24 @@ class CarsRepositoryImpl implements CarsRepository {
   @override
   Future<Either<Failure, List<CarEntity>>> fetchCars() async {
     final connected = await networkInfo.isConnected();
+    debugLog("Network Status : $connected");
     if (connected) {
       try {
         final cars = await carsRemoteDataSource.fetchCars();
         carsLocalDataSource.setCache(cars);
+        debugLog("CarsRemoteDataSource : $cars");
         return Right(cars);
-      } on ServerException catch (_) {
+      } on ServerException catch (e) {
+        debugLog("CarsRemoteDataSource : $e");
         return Left(ServerFailure(msg: "Server issue"));
       }
     } else {
       try {
         final cars = await carsLocalDataSource.getCache();
+        debugLog("CarsLocalDataSource : $cars");
         return Right(cars);
-      } on CacheException catch (_) {
+      } on CacheException catch (e) {
+        debugLog("CarsLocalDataSource : $e");
         return Left(CacheFailure(msg: 'No Cache Data Available'));
       }
     }

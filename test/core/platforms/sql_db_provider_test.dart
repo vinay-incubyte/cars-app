@@ -15,7 +15,7 @@ void main() {
     db = await databaseFactory.openDatabase(inMemoryDatabasePath);
     await db.execute('''
         CREATE TABLE cars(
-          id INTEGER PRIMARY KEY,
+          id TEXT PRIMARY KEY,
           vehicle TEXT,
           model TEXT,
           type TEXT,

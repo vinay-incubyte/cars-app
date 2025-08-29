@@ -20,7 +20,7 @@ class CarDbProvider implements SqlDbProvider {
         onCreate: (db, version) async {
           await db.execute('''
             CREATE TABLE cars(
-              id INTEGER PRIMARY KEY,
+              id TEXT PRIMARY KEY,
               vehicle TEXT,
               model TEXT,
               type TEXT,
