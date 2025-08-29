@@ -40,6 +40,7 @@ void main() {
     final actual = await carDbProviderImpl.getDB();
     final result = await actual.rawQuery("PRAGMA table_info(cars);");
     final columnNames = result.map((row) => row['name']).toList();
+    final columnType = result.map((row) => row['type']).toList();
     // assert
     expect(
       columnNames,
@@ -53,5 +54,6 @@ void main() {
         'image',
       ]),
     );
+    expect(columnType, List.generate(columnType.length,(index) =>  'TEXT'));
   });
 }
