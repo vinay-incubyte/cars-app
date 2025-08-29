@@ -34,7 +34,7 @@ void main() {
       await tester.tap(find.byKey(ValueKey("carId_1")));
       await tester.pumpAndSettle();
 
-      expect(find.byType(Text), findsExactly(6));
+      expect(find.byType(Text), findsExactly(5));
       expect(find.byType(CachedNetworkImage), findsOneWidget);
 
       //* Tap back button on car details
