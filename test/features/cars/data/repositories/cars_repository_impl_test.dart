@@ -33,7 +33,7 @@ void main() {
     );
   });
 
-  void _simulateNetwork(bool status) {
+  void simulateNetwork(bool status) {
     when(networkInfo.isConnected()).thenAnswer((_) async => status);
   }
 
@@ -41,34 +41,40 @@ void main() {
     test('verify call to network info', () async {
       // arrange
       when(carsRemoteDataSource.fetchCars()).thenAnswer((_) async => []);
-      _simulateNetwork(true);
+      simulateNetwork(true);
       // act
       await carsRepositoryImpl.fetchCars();
       // assert
       verify(networkInfo.isConnected()).called(1);
     });
-    test('Verify when cars fetch from Remote source successful', () async {
-      // arrange
-      _simulateNetwork(true);
-      final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
-      final car = CarModel.fromJson(jsonData);
-      final carsList = [car];
-      when(carsRemoteDataSource.fetchCars()).thenAnswer((_) async => carsList);
-      // act
-      final response = await carsRepositoryImpl.fetchCars();
-      // assert
-      expect(response, (Right(carsList)));
-      verify(carsRemoteDataSource.fetchCars()).called(1);
-    });
 
-    test('Verify when fetch cars return Failure ', () async {
-      // arrange
-      _simulateNetwork(true);
-      when(carsRemoteDataSource.fetchCars()).thenThrow(ServerException());
-      // act
-      final response = await carsRepositoryImpl.fetchCars();
-      // assert
-      expect(response, Left(ServerFailure(msg: "Server issue")));
+    group('verify Remote source fetch when connected to network', () {
+      test('Verify when cars fetch when successful and cache data', () async {
+        // arrange
+        simulateNetwork(true);
+        final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
+        final car = CarModel.fromJson(jsonData);
+        final carsList = [car];
+        when(
+          carsRemoteDataSource.fetchCars(),
+        ).thenAnswer((_) async => carsList);
+        // act
+        final response = await carsRepositoryImpl.fetchCars();
+        // assert
+        expect(response, (Right(carsList)));
+        verify(carsRemoteDataSource.fetchCars()).called(1);
+        verify(carsLocalDataSource.setCache(carsList)).called(1);
+      });
+
+      test('Verify when fetch cars return Failure ', () async {
+        // arrange
+        simulateNetwork(true);
+        when(carsRemoteDataSource.fetchCars()).thenThrow(ServerException());
+        // act
+        final response = await carsRepositoryImpl.fetchCars();
+        // assert
+        expect(response, Left(ServerFailure(msg: "Server issue")));
+      });
     });
   });
 }
