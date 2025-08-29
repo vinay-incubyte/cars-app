@@ -5,6 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
+import 'package:cars_app/core/platforms/network_info.dart' as _i6;
+import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.dart'
+    as _i5;
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart'
     as _i2;
 import 'package:cars_app/features/cars/data/models/car_model.dart' as _i4;
@@ -40,4 +43,48 @@ class MockCarsRemoteDataSource extends _i1.Mock
             returnValue: _i3.Future<List<_i4.CarModel>>.value(<_i4.CarModel>[]),
           )
           as _i3.Future<List<_i4.CarModel>>);
+}
+
+/// A class which mocks [CarsLocalDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCarsLocalDataSource extends _i1.Mock
+    implements _i5.CarsLocalDataSource {
+  MockCarsLocalDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<List<_i4.CarModel>> getCache() =>
+      (super.noSuchMethod(
+            Invocation.method(#getCache, []),
+            returnValue: _i3.Future<List<_i4.CarModel>>.value(<_i4.CarModel>[]),
+          )
+          as _i3.Future<List<_i4.CarModel>>);
+
+  @override
+  _i3.Future<void> setCache(List<_i4.CarModel>? cars) =>
+      (super.noSuchMethod(
+            Invocation.method(#setCache, [cars]),
+            returnValue: _i3.Future<void>.value(),
+            returnValueForMissingStub: _i3.Future<void>.value(),
+          )
+          as _i3.Future<void>);
+}
+
+/// A class which mocks [NetworkInfo].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
+  MockNetworkInfo() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.Future<bool> isConnected() =>
+      (super.noSuchMethod(
+            Invocation.method(#isConnected, []),
+            returnValue: _i3.Future<bool>.value(false),
+          )
+          as _i3.Future<bool>);
 }

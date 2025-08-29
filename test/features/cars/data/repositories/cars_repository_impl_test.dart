@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/core/failure.dart';
+import 'package:cars_app/core/platforms/network_info.dart';
+import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/data/repositories/cars_repository_impl.dart';
@@ -13,20 +15,39 @@ import 'package:mockito/mockito.dart';
 import '../../../../fixtures/fixture.dart';
 import 'cars_repository_impl_test.mocks.dart';
 
-@GenerateMocks([CarsRemoteDataSource])
+@GenerateMocks([CarsRemoteDataSource, CarsLocalDataSource, NetworkInfo])
 void main() {
   late CarsRemoteDataSource carsRemoteDataSource;
+  late CarsLocalDataSource carsLocalDataSource;
+  late NetworkInfo networkInfo;
   late CarsRepositoryImpl carsRepositoryImpl;
 
   setUp(() {
     carsRemoteDataSource = MockCarsRemoteDataSource();
+    carsLocalDataSource = MockCarsLocalDataSource();
+    networkInfo = MockNetworkInfo();
     carsRepositoryImpl = CarsRepositoryImpl(
       carsRemoteDataSource: carsRemoteDataSource,
+      carsLocalDataSource: carsLocalDataSource,
+      networkInfo: networkInfo,
     );
   });
 
+  void _simulateNetwork(bool status) {
+    when(networkInfo.isConnected()).thenAnswer((_) async => status);
+  }
+
   group('Verify cars repository', () {
-    test('Verify when fetch cars successful', () async {
+    test('verify call to network info', () async {
+      // arrange
+      when(carsRemoteDataSource.fetchCars()).thenAnswer((_) async => []);
+      _simulateNetwork(true);
+      // act
+      await carsRepositoryImpl.fetchCars();
+      // assert
+      verify(networkInfo.isConnected()).called(1);
+    });
+    test('Verify when cars fetch from Remote source successful', () async {
       // arrange
       final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
       final car = CarModel.fromJson(jsonData);
@@ -36,6 +57,7 @@ void main() {
       final response = await carsRepositoryImpl.fetchCars();
       // assert
       expect(response, (Right(carsList)));
+      verify(carsRemoteDataSource.fetchCars()).called(1);
     });
 
     test('Verify when fetch cars return Failure ', () async {

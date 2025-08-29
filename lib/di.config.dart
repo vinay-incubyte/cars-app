@@ -12,9 +12,12 @@
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:internet_connection_checker/internet_connection_checker.dart'
+    as _i973;
 import 'package:sqflite/sqflite.dart' as _i779;
 
 import 'core/di_modules.dart' as _i371;
+import 'core/platforms/network_info.dart' as _i998;
 import 'features/cars/data/data_sources/cars_local_data_source.dart' as _i849;
 import 'features/cars/data/data_sources/cars_remote_data_source.dart' as _i577;
 import 'features/cars/data/repositories/cars_repository_impl.dart' as _i1;
@@ -35,6 +38,11 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.carsDB(),
       preResolve: true,
     );
+    gh.lazySingleton<_i998.NetworkInfo>(
+      () => _i998.NetworkInfoImpl(
+        connectionChecker: gh<_i973.InternetConnectionChecker>(),
+      ),
+    );
     gh.lazySingleton<_i849.CarsLocalDataSource>(
       () => _i849.CarsLocalDataSourceImpl(db: gh<_i779.Database>()),
     );
@@ -43,6 +51,8 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i441.CarsRepository>(
       () => _i1.CarsRepositoryImpl(
+        networkInfo: gh<_i998.NetworkInfo>(),
+        carsLocalDataSource: gh<_i849.CarsLocalDataSource>(),
         carsRemoteDataSource: gh<_i577.CarsRemoteDataSource>(),
       ),
     );
