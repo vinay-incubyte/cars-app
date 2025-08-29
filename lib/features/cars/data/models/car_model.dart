@@ -22,4 +22,8 @@ class CarModel extends CarEntity {
       image: json['image'] ?? "",
     );
   }
+
+  Map<String,String> toMap(){
+    throw UnimplementedError();
+  }
 }

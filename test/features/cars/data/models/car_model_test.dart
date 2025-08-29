@@ -6,9 +6,10 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../fixtures/fixture.dart';
 
 void main() {
-  test('verify car model from json', () async {
-    // arrange
-    final expected = CarModel(
+  late CarModel car;
+
+  setUp(() {
+    car = CarModel(
       id: "1",
       name: 'Mercedes Benz Mercielago',
       manufacturer: 'Mazda',
@@ -17,10 +18,24 @@ void main() {
       type: 'Crew Cab Pickup',
       image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
     );
-    final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
-    // act
-    final actual = CarModel.fromJson(jsonData);
-    // assert
-    expect(actual, expected);
+  });
+  group('verify car model', () {
+    test('verify car model from json', () async {
+      // arrange
+      final jsonData = jsonDecode(await Fixture.load('car_fixture.json'));
+      // act
+      final actual = CarModel.fromJson(jsonData);
+      // assert
+      expect(actual, car);
+    });
+
+    test('verify toMap from car model', () async {
+      // arrange
+      final expected = jsonDecode(await Fixture.load('car_fixture.json'));
+      // act
+      final actual = car.toMap();
+      // assert
+      expect(actual, expected);
+    });
   });
 }
