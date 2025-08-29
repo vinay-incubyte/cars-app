@@ -16,10 +16,12 @@ class NetworkErrorBanner extends StatelessWidget {
         : Container(
             padding: EdgeInsets.all(8),
             width: double.infinity,
-            color: Colors.grey,
-            child: Text(
-              'No Internet, showing cached data',
-              style: TextStyle(color: Colors.blue),
+            color: Colors.red,
+            child: Center(
+              child: Text(
+                'No Internet, showing cached data',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
           );
   }
