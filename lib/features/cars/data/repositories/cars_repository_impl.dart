@@ -23,7 +23,9 @@ class CarsRepositoryImpl implements CarsRepository {
   Future<Either<Failure, List<CarEntity>>> fetchCars() async {
     final connected = await networkInfo.isConnected();
     try {
-      return Right(await carsRemoteDataSource.fetchCars());
+      final cars = await carsRemoteDataSource.fetchCars();
+      carsLocalDataSource.setCache(cars);
+      return Right(cars);
     } on ServerException catch (_) {
       return Left(ServerFailure(msg: "Server issue"));
     }
