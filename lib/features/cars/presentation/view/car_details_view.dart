@@ -20,6 +20,19 @@ class CarDetailsView extends StatelessWidget {
               fit: BoxFit.fitWidth,
               height: 250,
               width: double.infinity,
+              errorWidget: (context, url, error) => Material(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.error, color: Colors.red, size: 100),
+                    Text(
+                      'Unable to load image',
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
           _buildInfo(),

@@ -34,6 +34,15 @@ class CarListItem extends StatelessWidget {
                   height: 150,
                   width: 200,
                   memCacheWidth: 200,
+                  errorWidget: (context, url, error) => Material(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.error, color: Colors.red, size: 40),
+                        Text('Unable to load image'),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               Flexible(
