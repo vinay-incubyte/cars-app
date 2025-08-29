@@ -31,8 +31,12 @@ class CarsRepositoryImpl implements CarsRepository {
         return Left(ServerFailure(msg: "Server issue"));
       }
     } else {
-      final cars = await carsLocalDataSource.getCache();
-      return Right(cars);
+      try {
+        final cars = await carsLocalDataSource.getCache();
+        return Right(cars);
+      } on CacheException catch (_) {
+        return Left(CacheFailure(msg: 'No Cache Data Available'));
+      }
     }
   }
 }
