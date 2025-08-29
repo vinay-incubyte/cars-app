@@ -14,9 +14,9 @@ class CarsLocalDataSourceImpl implements CarsLocalDataSource {
   const CarsLocalDataSourceImpl({required this.db});
 
   @override
-  Future<List<CarModel>> getCache() {
-    // TODO: implement getCache
-    throw UnimplementedError();
+  Future<List<CarModel>> getCache() async {
+    final carsJsonList = await db.query(CARS_TABLE);
+    return carsJsonList.map(CarModel.fromJson).toList();
   }
 
   @override
