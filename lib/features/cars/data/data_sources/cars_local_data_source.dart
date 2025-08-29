@@ -1,3 +1,4 @@
+import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -16,7 +17,10 @@ class CarsLocalDataSourceImpl implements CarsLocalDataSource {
   @override
   Future<List<CarModel>> getCache() async {
     final carsJsonList = await db.query(CARS_TABLE);
-    return carsJsonList.map(CarModel.fromJson).toList();
+    if (carsJsonList.isNotEmpty) {
+      return carsJsonList.map(CarModel.fromJson).toList();
+    }
+    throw CacheException();
   }
 
   @override
