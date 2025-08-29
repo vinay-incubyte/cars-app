@@ -138,6 +138,7 @@ void main() {
       });
       // act
       await tester.pumpWidget(loadPageView());
+      await tester.pumpAndSettle();
       // assert
       expect(find.text('No Internet, showing cached data'), findsOne);
     });

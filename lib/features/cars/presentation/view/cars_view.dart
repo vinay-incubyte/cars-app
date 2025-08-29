@@ -1,3 +1,5 @@
+import 'package:cars_app/core/widgets/network_error_banner.dart';
+import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
 import 'package:cars_app/features/cars/presentation/view/error/cars_list_error.dart';
@@ -30,14 +32,11 @@ class _CarsViewState extends State<CarsView> {
           builder: (context, state) {
             if (state is CarsLoaded) {
               final cars = state.response.cars;
-              return ListView.separated(
-                itemBuilder: (context, index) => CarListItem(
-                  car: cars[index],
-                  key: ValueKey("carId_${cars[index].id}"),
-                  cacheManager: cacheManager,
-                ),
-                itemCount: cars.length,
-                separatorBuilder: (context, index) => SizedBox(height: 10),
+              return Column(
+                children: [
+                  NetworkErrorBanner(isConnected: state.response.isConnected),
+                  Expanded(child: _buildCarsData(cars)),
+                ],
               );
             }
             if (state is CarsLoadError) {
@@ -47,6 +46,18 @@ class _CarsViewState extends State<CarsView> {
           },
         ),
       ),
+    );
+  }
+
+  ListView _buildCarsData(List<CarEntity> cars) {
+    return ListView.separated(
+      itemBuilder: (context, index) => CarListItem(
+        car: cars[index],
+        key: ValueKey("carId_${cars[index].id}"),
+        cacheManager: cacheManager,
+      ),
+      itemCount: cars.length,
+      separatorBuilder: (context, index) => SizedBox(height: 10),
     );
   }
 }
