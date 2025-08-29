@@ -6,7 +6,8 @@
 import 'dart:async' as _i4;
 
 import 'package:cars_app/core/failure.dart' as _i5;
-import 'package:cars_app/features/cars/domain/entities/car_entity.dart' as _i6;
+import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart'
+    as _i6;
 import 'package:cars_app/features/cars/domain/repositories/cars_repository.dart'
     as _i3;
 import 'package:dartz/dartz.dart' as _i2;
@@ -40,16 +41,18 @@ class MockCarsRepository extends _i1.Mock implements _i3.CarsRepository {
   }
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, List<_i6.CarEntity>>> fetchCars() =>
+  _i4.Future<_i2.Either<_i5.Failure, _i6.CarResponseEntity>> fetchCars() =>
       (super.noSuchMethod(
             Invocation.method(#fetchCars, []),
             returnValue:
-                _i4.Future<_i2.Either<_i5.Failure, List<_i6.CarEntity>>>.value(
-                  _FakeEither_0<_i5.Failure, List<_i6.CarEntity>>(
+                _i4.Future<
+                  _i2.Either<_i5.Failure, _i6.CarResponseEntity>
+                >.value(
+                  _FakeEither_0<_i5.Failure, _i6.CarResponseEntity>(
                     this,
                     Invocation.method(#fetchCars, []),
                   ),
                 ),
           )
-          as _i4.Future<_i2.Either<_i5.Failure, List<_i6.CarEntity>>>);
+          as _i4.Future<_i2.Either<_i5.Failure, _i6.CarResponseEntity>>);
 }

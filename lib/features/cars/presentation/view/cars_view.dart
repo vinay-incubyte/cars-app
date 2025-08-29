@@ -29,7 +29,7 @@ class _CarsViewState extends State<CarsView> {
         child: BlocBuilder<CarsCubit, CarsState>(
           builder: (context, state) {
             if (state is CarsLoaded) {
-              final cars = state.cars;
+              final cars = state.response.cars;
               return ListView.separated(
                 itemBuilder: (context, index) => CarListItem(
                   car: cars[index],

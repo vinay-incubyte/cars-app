@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:cars_app/core/failure.dart';
-import 'package:cars_app/core/platforms/network_info.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';

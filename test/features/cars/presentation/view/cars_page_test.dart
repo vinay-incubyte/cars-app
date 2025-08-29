@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
+import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:cars_app/features/cars/presentation/view/car_item/car_list_item.dart';
@@ -35,7 +36,7 @@ void main() {
     );
     when(fetchCarsUsecase.call()).thenAnswer((_) async {
       await Future.delayed(Duration.zero);
-      return Right(carsList);
+      return Right(CarResponseEntity(isConnected: true, cars: carsList));
     });
   });
 

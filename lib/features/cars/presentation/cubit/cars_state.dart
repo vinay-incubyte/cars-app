@@ -12,11 +12,11 @@ final class CarsInitial extends CarsState {}
 final class CarsLoading extends CarsState {}
 
 final class CarsLoaded extends CarsState {
-  final List<CarEntity> cars;
-  const CarsLoaded({required this.cars});
+  final CarResponseEntity response;
+  const CarsLoaded({required this.response});
 
   @override
-  List<Object> get props => [super.props, cars];
+  List<Object> get props => [super.props, response];
 }
 
 final class CarsLoadError extends CarsState {

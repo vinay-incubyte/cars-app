@@ -10,33 +10,35 @@ class CarDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: Column(
-        children: [
-          Hero(
-            tag: car.id,
-            transitionOnUserGestures: true,
-            child: CachedNetworkImage(
-              imageUrl: car.image,
-              fit: BoxFit.fitWidth,
-              height: 250,
-              width: double.infinity,
-              errorWidget: (context, url, error) => Material(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.error, color: Colors.red, size: 100),
-                    Text(
-                      'Unable to load image',
-                      style: TextStyle(fontSize: 24),
-                    ),
-                  ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Hero(
+              tag: car.id,
+              transitionOnUserGestures: true,
+              child: CachedNetworkImage(
+                imageUrl: car.image,
+                fit: BoxFit.fitWidth,
+                height: 250,
+                width: double.infinity,
+                errorWidget: (context, url, error) => Material(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.error, color: Colors.red, size: 100),
+                      Text(
+                        'Unable to load image',
+                        style: TextStyle(fontSize: 24),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          _buildInfo(),
-        ],
+            _buildInfo(),
+          ],
+        ),
       ),
     );
   }

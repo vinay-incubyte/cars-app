@@ -1,3 +1,4 @@
+import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart';
 import 'package:cars_app/features/cars/domain/repositories/cars_repository.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_cars_usecase.dart';
 import 'package:dartz/dartz.dart';
@@ -12,14 +13,16 @@ void main() {
   late CarsRepository carsRepository;
   late FetchCarsUsecase fetchCarsUsecase;
 
-  setUp((){
+  setUp(() {
     carsRepository = MockCarsRepository();
     fetchCarsUsecase = FetchCarsUsecase(carsRepository: carsRepository);
   });
 
   test('Verify repo fetch cars call', () async {
     // arrange
-    when(carsRepository.fetchCars()).thenAnswer((_) async => Right([]));
+    when(carsRepository.fetchCars()).thenAnswer(
+      (_) async => Right(CarResponseEntity(isConnected: true, cars: [])),
+    );
     // act
     await fetchCarsUsecase.call();
     // assert
