@@ -1,3 +1,4 @@
+import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,6 +39,17 @@ void main() {
       final actual = await carsLocalDataSourceImpl.getCache();
       // assert
       expect(actual, cars);
+      verify(database.query(CARS_TABLE)).called(1);
+    });
+
+    test('get Cache Expection if cars data not in DB', () async {
+      // arrange
+      final List<Map<String, Object?>> cars = [];
+      when(database.query(CARS_TABLE)).thenAnswer((_) async => cars);
+      // act
+      final call = carsLocalDataSourceImpl.getCache();
+      // assert
+      expect(() => call, throwsA(TypeMatcher<CacheException>()));
       verify(database.query(CARS_TABLE)).called(1);
     });
   });
