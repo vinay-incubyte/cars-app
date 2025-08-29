@@ -93,6 +93,18 @@ void main() {
         verify(carsLocalDataSource.getCache()).called(1);
         verifyZeroInteractions(carsRemoteDataSource);
       });
+
+      test('verify Cache Failure when not Cache in db', () async {
+        // arrange
+        simulateNetwork(false);
+        when(carsLocalDataSource.getCache()).thenThrow(CacheException());
+        // act
+        final actual = await carsRepositoryImpl.fetchCars();
+        // assert
+        expect(actual, Left(CacheFailure(msg: 'No Cache Data Available')));
+        verify(carsLocalDataSource.getCache()).called(1);
+        verifyZeroInteractions(carsRemoteDataSource);
+      });
     });
   });
 }
