@@ -20,6 +20,6 @@ void main() {
     await tester.pumpAndSettle();
     // assert
     expect(find.byType(CachedNetworkImage), findsOneWidget);
-    expect(find.byType(Text), findsExactly(6));
+    expect(find.byType(Text), findsExactly(5));
   });
 }
