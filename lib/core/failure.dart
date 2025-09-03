@@ -16,3 +16,7 @@ class ServerFailure extends Failure {
 class CacheFailure extends Failure {
   const CacheFailure({required super.msg});
 }
+
+class PermissionFailure extends Failure {
+  const PermissionFailure({required super.msg});
+}

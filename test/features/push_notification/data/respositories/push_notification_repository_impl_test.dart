@@ -1,3 +1,4 @@
+import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/push_notification/data/data_source/remote_push_notification_data_source.dart';
 import 'package:cars_app/features/push_notification/data/repoistories/push_notification_repository_impl.dart';
 import 'package:dartz/dartz.dart';
@@ -29,6 +30,17 @@ void main() {
       final actual = await pushNotificationRepositoryImpl.requestPermission();
       // assert
       expect(actual, Right(true));
+    });
+
+    test('verify requestPermission() failure', () async {
+      // arrange
+      when(
+        remotePushNotificationDataSource.requestPermission(),
+      ).thenAnswer((_) async => false);
+      // act
+      final actual = await pushNotificationRepositoryImpl.requestPermission();
+      // assert
+      expect(actual, Left(PermissionFailure(msg: 'Not allowed')));
     });
   });
 }
