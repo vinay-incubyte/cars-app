@@ -1,6 +1,6 @@
 import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/push_notification/data/data_source/remote_push_notification_data_source.dart';
-import 'package:cars_app/features/push_notification/data/repoistories/push_notification_repository_impl.dart';
+import 'package:cars_app/features/push_notification/data/repositories/push_notification_repository_impl.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
