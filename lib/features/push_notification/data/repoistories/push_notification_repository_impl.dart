@@ -17,8 +17,8 @@ class PushNotificationRepositoryImpl implements PushNotificationRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> requestPermission() {
-    // TODO: implement requestPermission
-    throw UnimplementedError();
+  Future<Either<Failure, bool>> requestPermission() async {
+   final status = await remotePushNotificationDataSource.requestPermission();
+   return Right(status);
   }
 }
