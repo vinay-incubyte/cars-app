@@ -8,6 +8,6 @@ class PushNotificationPermissionUsecase {
   PushNotificationPermissionUsecase({required this.pushNotificationRepository});
 
   Future<Either<Failure, bool>> call() async {
-    throw UnimplementedError();
+    return await pushNotificationRepository.requestPermission();
   }
 }
