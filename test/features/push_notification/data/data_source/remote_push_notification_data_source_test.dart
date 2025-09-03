@@ -1,3 +1,4 @@
+import 'package:cars_app/core/expections.dart';
 import 'package:cars_app/features/push_notification/data/data_source/remote_push_notification_data_source.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -54,6 +55,17 @@ void main() {
       final actual = await remotePushNotificationDataSource.getFCM();
       // assert
       expect(actual, 'fcm');
+      verify(firebaseMessaging.getToken()).called(1);
+      verifyNoMoreInteractions(firebaseMessaging);
+    });
+
+    test('verify get FCM failure', () async {
+      // arrange
+      when(firebaseMessaging.getToken()).thenAnswer((_) async => null);
+      // act
+      final call = remotePushNotificationDataSource.getFCM();
+      // assert
+      expect(call, throwsA(TypeMatcher<FCMTokenException>()));
       verify(firebaseMessaging.getToken()).called(1);
       verifyNoMoreInteractions(firebaseMessaging);
     });
