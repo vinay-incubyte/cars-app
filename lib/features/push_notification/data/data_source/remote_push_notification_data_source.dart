@@ -5,20 +5,21 @@ abstract class RemotePushNotificationDataSource {
   Future<String> getFCM();
 }
 
-class FirebaseRemotePushNotification implements RemotePushNotificationDataSource {
+class FirebaseRemotePushNotification
+    implements RemotePushNotificationDataSource {
   final FirebaseMessaging firebaseMessaging;
 
   FirebaseRemotePushNotification({required this.firebaseMessaging});
-  
+
   @override
   Future<String> getFCM() {
     // TODO: implement getFCM
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<bool> requestPermission() {
-    // TODO: implement requestPermission
-    throw UnimplementedError();
+  Future<bool> requestPermission() async {
+    await firebaseMessaging.requestPermission();
+    return true;
   }
 }
