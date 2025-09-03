@@ -14,9 +14,14 @@ class PushNotificationRepositoryImpl
   });
 
   @override
-  Future<Either<Failure, String>> getFCM()async {
-    final fcm = await remotePushNotificationDataSource.getFCM();
-    return Right(fcm);
+  Future<Either<Failure, String>> getFCM() async {
+    try {
+      final fcm = await remotePushNotificationDataSource.getFCM();
+      return Right(fcm);
+    } on Exception catch (e) {
+      debugLog("PushNotificationRepositoryImpl getFCM() : $e");
+      return Left(DeviceFailure(msg: 'get FCM failure'));
+    }
   }
 
   @override
