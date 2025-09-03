@@ -42,5 +42,16 @@ void main() {
       // assert
       expect(actual, Left(PermissionFailure(msg: 'Not allowed')));
     });
+
+    test('verify requestPermission() throw Exception', () async {
+      // arrange
+      when(
+        remotePushNotificationDataSource.requestPermission(),
+      ).thenThrow(Exception());
+      // act
+      final actual = await pushNotificationRepositoryImpl.requestPermission();
+      // assert
+      expect(actual, Left(PermissionFailure(msg: 'Not allowed')));
+    });
   });
 }
