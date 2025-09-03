@@ -14,9 +14,9 @@ class PushNotificationRepositoryImpl
   });
 
   @override
-  Future<Either<Failure, String>> getFCM() {
-    // TODO: implement getFCM
-    throw UnimplementedError();
+  Future<Either<Failure, String>> getFCM()async {
+    final fcm = await remotePushNotificationDataSource.getFCM();
+    return Right(fcm);
   }
 
   @override
