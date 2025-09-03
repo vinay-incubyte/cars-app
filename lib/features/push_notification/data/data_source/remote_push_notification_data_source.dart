@@ -12,9 +12,9 @@ class FirebaseRemotePushNotification
   FirebaseRemotePushNotification({required this.firebaseMessaging});
 
   @override
-  Future<String> getFCM() {
-    // TODO: implement getFCM
-    throw UnimplementedError();
+  Future<String> getFCM() async{
+    final fcm = await firebaseMessaging.getToken();
+    return 'fcm';
   }
 
   @override
