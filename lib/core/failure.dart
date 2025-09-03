@@ -20,3 +20,7 @@ class CacheFailure extends Failure {
 class PermissionFailure extends Failure {
   const PermissionFailure({required super.msg});
 }
+
+class DeviceFailure extends Failure {
+  const DeviceFailure({required super.msg});
+}

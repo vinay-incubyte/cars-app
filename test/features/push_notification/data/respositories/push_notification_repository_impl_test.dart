@@ -68,5 +68,17 @@ void main() {
       expect(actual, Right('fcm'));
       verify(remotePushNotificationDataSource.getFCM()).called(1);
     });
+
+    test('verify getFCM failure', () async {
+      // arrange
+      when(
+        remotePushNotificationDataSource.getFCM(),
+      ).thenThrow(Exception());
+      // act
+      final actual = await pushNotificationRepositoryImpl.getFCM();
+      // assert
+      expect(actual, Left(DeviceFailure(msg: 'get FCM failure')));
+      verify(remotePushNotificationDataSource.getFCM()).called(1);
+    });
   });
 }
