@@ -19,7 +19,9 @@ class FirebaseRemotePushNotification
 
   @override
   Future<bool> requestPermission() async {
-    await firebaseMessaging.requestPermission();
-    return true;
+    final settings = await firebaseMessaging.requestPermission();
+    final authorized =
+        settings.authorizationStatus == AuthorizationStatus.authorized;
+    return authorized;
   }
 }
