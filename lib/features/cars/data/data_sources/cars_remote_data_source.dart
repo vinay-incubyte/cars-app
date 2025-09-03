@@ -1,5 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:isolate';
+
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
@@ -17,9 +19,11 @@ class CarsRemoteDataSourceImpl implements CarsRemoteDataSource {
 
   @override
   Future<List<CarModel>> fetchCars() async {
-    final response = await dio.get(GET_CARS);
-    final List data = response.data;
-    final cars = data.map((e) => CarModel.fromJson(e)).toList();
-    return cars;
+    return await Isolate.run(() async {
+      final response = await dio.get(GET_CARS);
+      final List data = response.data;
+      final cars = data.map((e) => CarModel.fromJson(e)).toList();
+      return cars;
+    });
   }
 }
