@@ -32,10 +32,24 @@ void main() {
       verify(firebaseMessaging.requestPermission()).called(1);
       verifyNoMoreInteractions(firebaseMessaging);
     });
+
+    test('verify permission request failure', () async {
+      // arrange
+      final mockSettings = _mockNotificationSettings(isAllowed: false);
+      when(
+        firebaseMessaging.requestPermission(),
+      ).thenAnswer((_) async => mockSettings);
+      // act
+      final actual = await remotePushNotificationDataSource.requestPermission();
+      // assert
+      expect(actual, false);
+      verify(firebaseMessaging.requestPermission()).called(1);
+      verifyNoMoreInteractions(firebaseMessaging);
+    });
   });
 }
 
-NotificationSettings _mockNotificationSettings() {
+NotificationSettings _mockNotificationSettings({bool isAllowed = true}) {
   return NotificationSettings(
     alert: AppleNotificationSetting.enabled,
     announcement: AppleNotificationSetting.notSupported,
@@ -46,7 +60,9 @@ NotificationSettings _mockNotificationSettings() {
     notificationCenter: AppleNotificationSetting.enabled,
     showPreviews: AppleShowPreviewSetting.always,
     timeSensitive: AppleNotificationSetting.notSupported,
-    authorizationStatus: AuthorizationStatus.authorized,
+    authorizationStatus: isAllowed
+        ? AuthorizationStatus.authorized
+        : AuthorizationStatus.denied,
     sound: AppleNotificationSetting.enabled,
     providesAppNotificationSettings: AppleNotificationSetting.enabled,
   );
