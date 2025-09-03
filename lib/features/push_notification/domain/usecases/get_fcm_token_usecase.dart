@@ -8,6 +8,6 @@ class GetFcmTokenUsecase {
   GetFcmTokenUsecase({required this.pushNotificationRepository});
 
   Future<Either<Failure, String>> call() async {
-    throw UnimplementedError();
+    return await pushNotificationRepository.getFCM();
   }
 }
