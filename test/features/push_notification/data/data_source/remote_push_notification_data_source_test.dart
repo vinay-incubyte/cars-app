@@ -46,6 +46,17 @@ void main() {
       verify(firebaseMessaging.requestPermission()).called(1);
       verifyNoMoreInteractions(firebaseMessaging);
     });
+
+    test('verify get FCM success', () async {
+      // arrange
+      when(firebaseMessaging.getToken()).thenAnswer((_) async => 'fcm');
+      // act
+      final actual = await remotePushNotificationDataSource.getFCM();
+      // assert
+      expect(actual, 'fcm');
+      verify(firebaseMessaging.getToken()).called(1);
+      verifyNoMoreInteractions(firebaseMessaging);
+    });
   });
 }
 
