@@ -30,6 +30,7 @@ void main() {
       final actual = await pushNotificationRepositoryImpl.requestPermission();
       // assert
       expect(actual, Right(true));
+      verify(remotePushNotificationDataSource.requestPermission()).called(1);
     });
 
     test('verify requestPermission() failure', () async {
@@ -41,6 +42,7 @@ void main() {
       final actual = await pushNotificationRepositoryImpl.requestPermission();
       // assert
       expect(actual, Left(PermissionFailure(msg: 'Not allowed')));
+      verify(remotePushNotificationDataSource.requestPermission()).called(1);
     });
 
     test('verify requestPermission() throw Exception', () async {
@@ -52,6 +54,19 @@ void main() {
       final actual = await pushNotificationRepositoryImpl.requestPermission();
       // assert
       expect(actual, Left(PermissionFailure(msg: 'Not allowed')));
+      verify(remotePushNotificationDataSource.requestPermission()).called(1);
+    });
+
+    test('verify getFCM success', () async {
+      // arrange
+      when(
+        remotePushNotificationDataSource.getFCM(),
+      ).thenAnswer((_) async => 'fcm');
+      // act
+      final actual = await pushNotificationRepositoryImpl.getFCM();
+      // assert
+      expect(actual, Right('fcm'));
+      verify(remotePushNotificationDataSource.getFCM()).called(1);
     });
   });
 }
