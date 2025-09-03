@@ -1,3 +1,4 @@
+import 'package:cars_app/core/expections.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 abstract class RemotePushNotificationDataSource {
@@ -12,9 +13,10 @@ class FirebaseRemotePushNotification
   FirebaseRemotePushNotification({required this.firebaseMessaging});
 
   @override
-  Future<String> getFCM() async{
+  Future<String> getFCM() async {
     final fcm = await firebaseMessaging.getToken();
-    return 'fcm';
+    if (fcm != null) return fcm;
+    throw FCMTokenException();
   }
 
   @override
