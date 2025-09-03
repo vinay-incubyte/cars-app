@@ -14,7 +14,7 @@ class FirebasePushNotificationCubit
   final GetFcmTokenUsecase getFcmTokenUsecase;
   final PushNotificationPermissionUsecase notificationPermissionUsecase;
 
-  void init(){
-    
+  Future<void> init() async {
+    final permission = await notificationPermissionUsecase.call();
   }
 }

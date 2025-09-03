@@ -33,7 +33,7 @@ void main() {
       // arrange
       when(permissionUsecase.call()).thenAnswer((_) async => Right(true));
       // act
-      pushNotificationCubit.init();
+      await pushNotificationCubit.init();
       // assert
       verify(permissionUsecase.call()).called(1);
     });
