@@ -3,24 +3,34 @@ import 'package:cars_app/features/push_notification/domain/usecases/get_fcm_toke
 import 'package:cars_app/features/push_notification/domain/usecases/push_notification_permission_usecase.dart';
 import 'package:cars_app/features/push_notification/presentation/cubit/firebase_push_notification_cubit.dart';
 import 'package:dartz/dartz.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'firebase_push_notification_cubit_test.mocks.dart';
 
-@GenerateMocks([GetFcmTokenUsecase, PushNotificationPermissionUsecase])
+@GenerateMocks([
+  GetFcmTokenUsecase,
+  PushNotificationPermissionUsecase,
+  FlutterLocalNotificationsPlugin,
+  InitializationSettings,
+  NotificationDetails,
+])
 void main() {
   late GetFcmTokenUsecase getFcmTokenUsecase;
   late PushNotificationPermissionUsecase permissionUsecase;
   late FirebasePushNotificationCubit pushNotificationCubit;
+  late FlutterLocalNotificationsPlugin localNotificationsPlugin;
 
   setUp(() {
     permissionUsecase = MockPushNotificationPermissionUsecase();
     getFcmTokenUsecase = MockGetFcmTokenUsecase();
+    localNotificationsPlugin = MockFlutterLocalNotificationsPlugin();
     pushNotificationCubit = FirebasePushNotificationCubit(
       getFcmTokenUsecase: getFcmTokenUsecase,
       notificationPermissionUsecase: permissionUsecase,
+      localNotificationsPlugin: localNotificationsPlugin,
     );
   });
 

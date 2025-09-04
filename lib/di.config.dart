@@ -11,6 +11,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
 import 'package:firebase_messaging/firebase_messaging.dart' as _i892;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart'
+    as _i163;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
@@ -51,6 +53,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i892.FirebaseMessaging>(
       () => registerModule.firebaseMessaging,
+    );
+    gh.lazySingleton<_i163.FlutterLocalNotificationsPlugin>(
+      () => registerModule.localNotificationsPlatform,
     );
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio());
     await gh.lazySingletonAsync<_i779.Database>(
@@ -94,6 +99,7 @@ extension GetItInjectableX on _i174.GetIt {
         getFcmTokenUsecase: gh<_i761.GetFcmTokenUsecase>(),
         notificationPermissionUsecase:
             gh<_i900.PushNotificationPermissionUsecase>(),
+        localNotificationsPlugin: gh<_i163.FlutterLocalNotificationsPlugin>(),
       ),
     );
     gh.lazySingleton<_i441.CarsRepository>(

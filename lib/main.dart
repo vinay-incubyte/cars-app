@@ -7,11 +7,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // Initialize things here if needed (e.g., Firebase)
-  // print("Handling a background message: ${message.messageId}");
+}
+
+Future<void> _registerLocalNotifications() async {
+  var initializationSettingsAndroid = AndroidInitializationSettings(
+    '@mipmap/ic_launcher',
+  );
+  var initializationSettingsIOS = DarwinInitializationSettings();
+  var initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+    iOS: initializationSettingsIOS,
+  );
+  final localNotificationsPlugin = getIt<FlutterLocalNotificationsPlugin>();
+  await localNotificationsPlugin.initialize(initializationSettings);
 }
 
 void main() async {
@@ -19,6 +31,7 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await configureDependencies();
+  await _registerLocalNotifications();
   runApp(const MainApp());
 }
 

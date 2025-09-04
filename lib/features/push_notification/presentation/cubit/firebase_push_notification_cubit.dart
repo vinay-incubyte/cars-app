@@ -4,6 +4,7 @@ import 'package:cars_app/features/push_notification/domain/usecases/push_notific
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:injectable/injectable.dart';
 
 part 'firebase_push_notification_state.dart';
@@ -14,10 +15,12 @@ class FirebasePushNotificationCubit extends Cubit<FirebasePushNotificationState>
   FirebasePushNotificationCubit({
     required this.getFcmTokenUsecase,
     required this.notificationPermissionUsecase,
+    required this.localNotificationsPlugin,
   }) : super(FirebasePushNotificationInitial());
 
   final GetFcmTokenUsecase getFcmTokenUsecase;
   final PushNotificationPermissionUsecase notificationPermissionUsecase;
+  final FlutterLocalNotificationsPlugin localNotificationsPlugin;
 
   Future<void> init() async {
     final permission = await notificationPermissionUsecase.call();
@@ -33,12 +36,31 @@ class FirebasePushNotificationCubit extends Cubit<FirebasePushNotificationState>
     debugLog("FCM: $fcm");
 
     FirebaseMessaging.onMessage.listen((message) {
-      // print("Foreground message: ${message.notification?.toMap()}");
-      // Show local notification if needed
+      debugLog("Foreground message: ${message.notification?.toMap()}");
+      final platformChannelSpecifics = _setupLocalNotification();
+      final notification = message.notification;
+      localNotificationsPlugin.show(
+        notification.hashCode,
+        notification?.title,
+        notification?.body,
+        platformChannelSpecifics,
+        payload: message.data["id"],
+      );
     });
+  }
 
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      // print("App opened from notification: ${message.data}");
-    });
+  NotificationDetails _setupLocalNotification() {
+    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+      'cars_app_channel',
+      'CarsApp Notifications',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    final iOSPlatformChannelSpecifics = DarwinNotificationDetails();
+    final platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
+    return platformChannelSpecifics;
   }
 }
