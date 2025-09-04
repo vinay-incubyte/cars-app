@@ -8,6 +8,7 @@ class CarsListError extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         spacing: 10,
         children: [
           Icon(Icons.error, color: Colors.red, size: 50),
