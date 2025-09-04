@@ -16,7 +16,7 @@ void main() {
       type: 'Crew Cab Pickup',
       image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
     );
-    await tester.pumpWidget(MaterialApp(home: CarDetailsView(car: car)));
+    await tester.pumpWidget(MaterialApp(home: CarDetailsView(args: CarDetailsArgs(car: car))));
     await tester.pumpAndSettle();
     // assert
     expect(find.byType(CachedNetworkImage), findsOneWidget);

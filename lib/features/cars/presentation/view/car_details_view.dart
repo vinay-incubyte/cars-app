@@ -1,6 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
+
+class CarDetailsArgs {
+  final CarEntity car;
+  final bool deepLink;
+  const CarDetailsArgs({required this.car, this.deepLink = false});
+}
 
 class CarDetailsView extends StatelessWidget {
   const CarDetailsView({super.key, required this.car});
