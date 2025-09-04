@@ -7,6 +7,7 @@ import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/data/repositories/cars_repository_impl.dart';
+import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -61,7 +62,7 @@ void main() {
         // act
         final response = await carsRepositoryImpl.fetchCars();
         // assert
-        expect(response, (Right(carsList)));
+        expect(response, (Right(CarResponseEntity(cars:carsList, isConnected: true))));
         verify(carsRemoteDataSource.fetchCars()).called(1);
         verify(carsLocalDataSource.setCache(carsList)).called(1);
       });
@@ -89,7 +90,7 @@ void main() {
         // act
         final actual = await carsRepositoryImpl.fetchCars();
         // assert
-        expect(actual, Right(cars));
+        expect(actual, (Right(CarResponseEntity(cars:cars, isConnected: false))));
         verify(carsLocalDataSource.getCache()).called(1);
         verifyZeroInteractions(carsRemoteDataSource);
       });

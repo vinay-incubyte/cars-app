@@ -48,8 +48,8 @@ class CarsRepositoryImpl with LoggerMixin implements CarsRepository {
   }
 
   @override
-  Future<Either<Failure, CarEntity>> getById(String id) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<Either<Failure, CarEntity>> getById(String id) async {
+    final car = await carsRemoteDataSource.fetchById(id);
+    return Right(car);
   }
 }
