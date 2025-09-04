@@ -8,7 +8,6 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import '../cubit/car_details_cubit_test.mocks.dart';
@@ -76,7 +75,9 @@ void main() {
 
     testWidgets('verify car details when deeplinkId failed', (tester) async {
       // arrange
-      when(fetchCarByIdUsecase.call("0")).thenAnswer((_) async => Left(ServerFailure(msg: "Server issue")));
+      when(
+        fetchCarByIdUsecase.call("0"),
+      ).thenAnswer((_) async => Left(ServerFailure(msg: "Server issue")));
       await tester.pumpWidget(
         BlocProvider.value(
           value: carDetailsCubit,
