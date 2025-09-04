@@ -61,5 +61,14 @@ void main() {
       // assert
       expect(actual, car);
     });
+
+    test('verify get Car by Id throw Expection', () async {
+      // arrange
+      when(dio.get("$GET_CARS/0")).thenThrow(ServerException());
+      // act
+      final call = carsRemoteDataSourceImpl.fetchById("0");
+      // assert
+      expect(() async => await call, throwsA(TypeMatcher<ServerException>()));
+    });
   });
 }

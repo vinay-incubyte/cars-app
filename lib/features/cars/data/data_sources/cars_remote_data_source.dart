@@ -27,10 +27,12 @@ class CarsRemoteDataSourceImpl implements CarsRemoteDataSource {
       return cars;
     });
   }
-  
+
   @override
-  Future<CarModel> fetchById(String id) {
-    // TODO: implement fetchById
-    throw UnimplementedError();
+  Future<CarModel> fetchById(String id) async {
+    final response = await dio.get("$GET_CARS/$id");
+    final Map<String, dynamic> data = response.data;
+    final car = CarModel.fromJson(data);
+    return car;
   }
 }
