@@ -46,5 +46,20 @@ void main() {
       // assert
       expect(() async => await call, throwsA(TypeMatcher<ServerException>()));
     });
+
+    test('verify get Car by Id when success', () async {
+      final car = CarModel.fromJson(
+        jsonDecode(await Fixture.load('car_fixture.json')),
+      );
+      final response = Response(
+        requestOptions: RequestOptions(),
+        data: jsonDecode(await Fixture.load('car_fixture.json')),
+      );
+      when(dio.get("$GET_CARS/0")).thenAnswer((_) async => response);
+      // act
+      final actual = await carsRemoteDataSourceImpl.fetchById("0");
+      // assert
+      expect(actual, car);
+    });
   });
 }
