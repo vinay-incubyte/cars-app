@@ -59,5 +59,17 @@ void main() {
       // verify
       verify(fetchCarByIdUsecase.call("0")).called(1);
     });
+
+    test('verify get Car if Car entity present', () async {
+      // assert
+      final car = CarModel.fromJson(
+        jsonDecode(await Fixture.load('car_fixture.json')),
+      );
+      final expected = [CarDetailsLoading(), CarDetailsLoaded(car: car)];
+      expectLater(carDetailsCubit.stream, emitsInOrder(expected));
+      // act
+      carDetailsCubit.carDetails(car);
+      verifyZeroInteractions(fetchCarByIdUsecase);
+    });
   });
 }
