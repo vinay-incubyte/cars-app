@@ -10,7 +10,7 @@ void main() {
   group('Cars App Integration Test', () {
     testWidgets('load cars and scroll list', (tester) async {
       app.main();
-      await tester.pump(Durations.medium1);
+      await tester.pump(Duration(seconds: 5));
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
       expect(find.text('Cars'), findsOneWidget);
