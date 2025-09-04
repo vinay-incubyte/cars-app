@@ -4,12 +4,20 @@ import 'package:cars_app/features/push_notification/presentation/cubit/firebase_
 import 'package:cars_app/firebase_options.dart';
 import 'package:cars_app/routes/app_router.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  // Initialize things here if needed (e.g., Firebase)
+  // print("Handling a background message: ${message.messageId}");
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await configureDependencies();
   runApp(const MainApp());
 }
@@ -23,7 +31,7 @@ class MainApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => getIt<CarsCubit>()),
         BlocProvider(
-          create: (context) => getIt<FirebasePushNotificationCubit>(),
+          create: (context) => getIt<FirebasePushNotificationCubit>()..init(),
           lazy: false,
         ),
       ],

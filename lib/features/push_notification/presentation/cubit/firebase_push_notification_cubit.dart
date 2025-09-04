@@ -2,6 +2,7 @@ import 'package:cars_app/core/mixns/logger_mixin.dart';
 import 'package:cars_app/features/push_notification/domain/usecases/get_fcm_token_usecase.dart';
 import 'package:cars_app/features/push_notification/domain/usecases/push_notification_permission_usecase.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -26,5 +27,14 @@ class FirebasePushNotificationCubit extends Cubit<FirebasePushNotificationState>
     }, (status) => status);
 
     if (!isPermission) return;
+
+    FirebaseMessaging.onMessage.listen((message) {
+      // print("Foreground message: ${message.notification?.toMap()}");
+      // Show local notification if needed
+    });
+
+    FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      // print("App opened from notification: ${message.data}");
+    });
   }
 }
