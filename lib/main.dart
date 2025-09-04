@@ -1,4 +1,5 @@
 import 'package:cars_app/di.dart';
+import 'package:cars_app/features/cars/presentation/cubit/car_details_cubit.dart';
 import 'package:cars_app/features/cars/presentation/cubit/cars_cubit.dart';
 import 'package:cars_app/features/push_notification/presentation/cubit/firebase_push_notification_cubit.dart';
 import 'package:cars_app/firebase_options.dart';
@@ -47,6 +48,7 @@ class MainApp extends StatelessWidget {
           create: (context) => getIt<FirebasePushNotificationCubit>()..init(),
           lazy: false,
         ),
+        BlocProvider(create: (context) => getIt<CarDetailsCubit>()),
       ],
       child: const MaterialApp(onGenerateRoute: AppRouter.generateRoute),
     );
