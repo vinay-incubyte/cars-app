@@ -27,5 +27,8 @@ class CarDetailsCubit extends Cubit<CarDetailsState> with LoggerMixin {
     );
   }
 
-  void carDetails(CarEntity car){}
+  void carDetails(CarEntity car){
+    emit(CarDetailsLoading());
+    emit(CarDetailsLoaded(car: car));
+  }
 }
