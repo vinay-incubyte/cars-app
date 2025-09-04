@@ -4,6 +4,7 @@ import 'package:cars_app/core/mixns/logger_mixin.dart';
 import 'package:cars_app/core/platforms/network_info.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.dart';
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart';
+import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
 import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart';
 import 'package:cars_app/features/cars/domain/repositories/cars_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -44,5 +45,11 @@ class CarsRepositoryImpl with LoggerMixin implements CarsRepository {
         return Left(CacheFailure(msg: 'No Cache Data Available'));
       }
     }
+  }
+
+  @override
+  Future<Either<Exception, CarEntity>> getById(String id) {
+    // TODO: implement getById
+    throw UnimplementedError();
   }
 }
