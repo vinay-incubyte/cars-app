@@ -121,6 +121,16 @@ void main() {
         expect(actual, Right(car));
         verify(carsRemoteDataSource.fetchById("0")).called(1);
       });
+
+      test('verify Car by Id when Exception', () async {
+        // arrange
+        when(carsRemoteDataSource.fetchById("0")).thenThrow(ServerException());
+        // act
+        final actual = await carsRepositoryImpl.getById("0");
+        // assert
+        expect(actual, Left(ServerFailure(msg: "Server issue")));
+        verify(carsRemoteDataSource.fetchById("0")).called(1);
+      });
     });
   });
 }
