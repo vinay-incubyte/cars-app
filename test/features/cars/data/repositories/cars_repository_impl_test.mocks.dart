@@ -3,14 +3,14 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
 import 'package:cars_app/core/platforms/network_info.dart' as _i6;
 import 'package:cars_app/features/cars/data/data_sources/cars_local_data_source.dart'
     as _i5;
 import 'package:cars_app/features/cars/data/data_sources/cars_remote_data_source.dart'
-    as _i2;
-import 'package:cars_app/features/cars/data/models/car_model.dart' as _i4;
+    as _i3;
+import 'package:cars_app/features/cars/data/models/car_model.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -27,22 +27,37 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeCarModel_0 extends _i1.SmartFake implements _i2.CarModel {
+  _FakeCarModel_0(Object parent, Invocation parentInvocation)
+    : super(parent, parentInvocation);
+}
+
 /// A class which mocks [CarsRemoteDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCarsRemoteDataSource extends _i1.Mock
-    implements _i2.CarsRemoteDataSource {
+    implements _i3.CarsRemoteDataSource {
   MockCarsRemoteDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.CarModel>> fetchCars() =>
+  _i4.Future<List<_i2.CarModel>> fetchCars() =>
       (super.noSuchMethod(
             Invocation.method(#fetchCars, []),
-            returnValue: _i3.Future<List<_i4.CarModel>>.value(<_i4.CarModel>[]),
+            returnValue: _i4.Future<List<_i2.CarModel>>.value(<_i2.CarModel>[]),
           )
-          as _i3.Future<List<_i4.CarModel>>);
+          as _i4.Future<List<_i2.CarModel>>);
+
+  @override
+  _i4.Future<_i2.CarModel> fetchById(String? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#fetchById, [id]),
+            returnValue: _i4.Future<_i2.CarModel>.value(
+              _FakeCarModel_0(this, Invocation.method(#fetchById, [id])),
+            ),
+          )
+          as _i4.Future<_i2.CarModel>);
 }
 
 /// A class which mocks [CarsLocalDataSource].
@@ -55,21 +70,21 @@ class MockCarsLocalDataSource extends _i1.Mock
   }
 
   @override
-  _i3.Future<List<_i4.CarModel>> getCache() =>
+  _i4.Future<List<_i2.CarModel>> getCache() =>
       (super.noSuchMethod(
             Invocation.method(#getCache, []),
-            returnValue: _i3.Future<List<_i4.CarModel>>.value(<_i4.CarModel>[]),
+            returnValue: _i4.Future<List<_i2.CarModel>>.value(<_i2.CarModel>[]),
           )
-          as _i3.Future<List<_i4.CarModel>>);
+          as _i4.Future<List<_i2.CarModel>>);
 
   @override
-  _i3.Future<void> setCache(List<_i4.CarModel>? cars) =>
+  _i4.Future<void> setCache(List<_i2.CarModel>? cars) =>
       (super.noSuchMethod(
             Invocation.method(#setCache, [cars]),
-            returnValue: _i3.Future<void>.value(),
-            returnValueForMissingStub: _i3.Future<void>.value(),
+            returnValue: _i4.Future<void>.value(),
+            returnValueForMissingStub: _i4.Future<void>.value(),
           )
-          as _i3.Future<void>);
+          as _i4.Future<void>);
 }
 
 /// A class which mocks [NetworkInfo].
@@ -81,10 +96,10 @@ class MockNetworkInfo extends _i1.Mock implements _i6.NetworkInfo {
   }
 
   @override
-  _i3.Future<bool> isConnected() =>
+  _i4.Future<bool> isConnected() =>
       (super.noSuchMethod(
             Invocation.method(#isConnected, []),
-            returnValue: _i3.Future<bool>.value(false),
+            returnValue: _i4.Future<bool>.value(false),
           )
-          as _i3.Future<bool>);
+          as _i4.Future<bool>);
 }

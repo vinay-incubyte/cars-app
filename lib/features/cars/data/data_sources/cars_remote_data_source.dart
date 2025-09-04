@@ -8,6 +8,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class CarsRemoteDataSource {
   Future<List<CarModel>> fetchCars();
+  Future<CarModel> fetchById(String id);
 }
 
 const String GET_CARS = "/products";
@@ -25,5 +26,11 @@ class CarsRemoteDataSourceImpl implements CarsRemoteDataSource {
       final cars = data.map((e) => CarModel.fromJson(e)).toList();
       return cars;
     });
+  }
+  
+  @override
+  Future<CarModel> fetchById(String id) {
+    // TODO: implement fetchById
+    throw UnimplementedError();
   }
 }

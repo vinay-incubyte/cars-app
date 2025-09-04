@@ -106,5 +106,20 @@ void main() {
         verifyZeroInteractions(carsRemoteDataSource);
       });
     });
+
+    group('verify get Car by Id', () {
+      test('verify Car by Id when success', () async {
+        // arrange
+        final car = CarModel.fromJson(
+          jsonDecode(await Fixture.load('car_fixture.json')),
+        );
+        when(carsRemoteDataSource.fetchById("0")).thenAnswer((_) async => car);
+        // act
+        final actual = await carsRepositoryImpl.getById("0");
+        // assert
+        expect(actual, Right(car));
+        verify(carsRemoteDataSource.fetchById("0")).called(1);
+      });
+    });
   });
 }
