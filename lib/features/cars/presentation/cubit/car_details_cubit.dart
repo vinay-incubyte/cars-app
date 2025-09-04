@@ -12,5 +12,11 @@ class CarDetailsCubit extends Cubit<CarDetailsState> {
     : super(CarDetailsInitial());
   final FetchCarByIdUsecase fetchCarByIdUsecase;
 
-  void fetchById(String id) async {}
+  void fetchById(String id) async {
+    emit(CarDetailsLoading());
+    final response = await fetchCarByIdUsecase.call(id);
+    response.fold((failure) {}, (car) {
+      emit(CarDetailsLoaded(car: car));
+    });
+  }
 }
