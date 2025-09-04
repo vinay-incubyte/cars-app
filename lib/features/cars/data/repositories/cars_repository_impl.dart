@@ -48,7 +48,7 @@ class CarsRepositoryImpl with LoggerMixin implements CarsRepository {
   }
 
   @override
-  Future<Either<Exception, CarEntity>> getById(String id) {
+  Future<Either<Failure, CarEntity>> getById(String id) {
     // TODO: implement getById
     throw UnimplementedError();
   }

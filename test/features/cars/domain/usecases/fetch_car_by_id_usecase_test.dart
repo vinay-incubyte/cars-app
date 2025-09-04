@@ -27,7 +27,7 @@ void main() {
     );
     when(carsRepository.getById("0")).thenAnswer((_) async => Right(car));
     // act
-    final actual = fetchCarByIdUsecase.call("0");
+    final actual = await fetchCarByIdUsecase.call("0");
     // assert
     expect(actual, Right(car));
     verify(fetchCarByIdUsecase.call("0")).called(1);

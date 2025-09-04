@@ -6,6 +6,7 @@
 import 'dart:async' as _i4;
 
 import 'package:cars_app/core/failure.dart' as _i5;
+import 'package:cars_app/features/cars/domain/entities/car_entity.dart' as _i7;
 import 'package:cars_app/features/cars/domain/entities/car_response_entity.dart'
     as _i6;
 import 'package:cars_app/features/cars/domain/repositories/cars_repository.dart'
@@ -55,4 +56,18 @@ class MockCarsRepository extends _i1.Mock implements _i3.CarsRepository {
                 ),
           )
           as _i4.Future<_i2.Either<_i5.Failure, _i6.CarResponseEntity>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i7.CarEntity>> getById(String? id) =>
+      (super.noSuchMethod(
+            Invocation.method(#getById, [id]),
+            returnValue:
+                _i4.Future<_i2.Either<_i5.Failure, _i7.CarEntity>>.value(
+                  _FakeEither_0<_i5.Failure, _i7.CarEntity>(
+                    this,
+                    Invocation.method(#getById, [id]),
+                  ),
+                ),
+          )
+          as _i4.Future<_i2.Either<_i5.Failure, _i7.CarEntity>>);
 }

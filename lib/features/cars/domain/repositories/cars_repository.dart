@@ -5,5 +5,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class CarsRepository {
   Future<Either<Failure, CarResponseEntity>> fetchCars();
-  Future<Either<Exception, CarEntity>> getById(String id);
+  Future<Either<Failure, CarEntity>> getById(String id);
 }

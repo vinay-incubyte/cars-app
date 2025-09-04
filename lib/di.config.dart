@@ -25,6 +25,7 @@ import 'features/cars/data/data_sources/cars_local_data_source.dart' as _i849;
 import 'features/cars/data/data_sources/cars_remote_data_source.dart' as _i577;
 import 'features/cars/data/repositories/cars_repository_impl.dart' as _i1;
 import 'features/cars/domain/repositories/cars_repository.dart' as _i441;
+import 'features/cars/domain/usecases/fetch_car_by_id_usecase.dart' as _i415;
 import 'features/cars/domain/usecases/fetch_cars_usecase.dart' as _i649;
 import 'features/cars/presentation/cubit/cars_cubit.dart' as _i969;
 import 'features/push_notification/data/data_source/remote_push_notification_data_source.dart'
@@ -111,6 +112,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i649.FetchCarsUsecase>(
       () => _i649.FetchCarsUsecase(carsRepository: gh<_i441.CarsRepository>()),
+    );
+    gh.lazySingleton<_i415.FetchCarByIdUsecase>(
+      () =>
+          _i415.FetchCarByIdUsecase(carsRepository: gh<_i441.CarsRepository>()),
     );
     gh.factory<_i969.CarsCubit>(
       () => _i969.CarsCubit(fetchCarsUsecase: gh<_i649.FetchCarsUsecase>()),

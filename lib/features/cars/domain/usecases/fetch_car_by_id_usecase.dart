@@ -10,6 +10,6 @@ class FetchCarByIdUsecase {
   const FetchCarByIdUsecase({required this.carsRepository});
 
   Future<Either<Failure, CarEntity>> call(String id) async {
-    throw UnimplementedError();
+    return await carsRepository.getById(id);
   }
 }
