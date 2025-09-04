@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cars_app/core/failure.dart';
 import 'package:cars_app/features/cars/data/models/car_model.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_car_by_id_usecase.dart';
 import 'package:cars_app/features/cars/presentation/cubit/car_details_cubit.dart';
@@ -71,6 +72,23 @@ void main() {
       // assert
       expect(find.byType(CachedNetworkImage), findsOneWidget);
       expect(find.byType(Text), findsExactly(5));
+    });
+
+    testWidgets('verify car details when deeplinkId failed', (tester) async {
+      // arrange
+      when(fetchCarByIdUsecase.call("0")).thenAnswer((_) async => Left(ServerFailure(msg: "Server issue")));
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: carDetailsCubit,
+          child: MaterialApp(
+            home: CarDetailsView(args: CarDetailsArgs(deepLinkId: "0")),
+          ),
+        ),
+      );
+      expect(find.byType(CircularProgressIndicator), findsOne);
+      await tester.pumpAndSettle();
+      // assert
+      expect(find.text('Server issue'), findsOne);
     });
   });
 }
