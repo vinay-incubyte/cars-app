@@ -5,21 +5,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('verify car details', (tester) async {
-    // arrange
-    final car = CarModel(
-      id: "1",
-      name: 'Mercedes Benz Mercielago',
-      manufacturer: 'Mazda',
-      model: 'Cruze',
-      fuel: 'Gasoline',
-      type: 'Crew Cab Pickup',
-      image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
-    );
-    await tester.pumpWidget(MaterialApp(home: CarDetailsView(args: CarDetailsArgs(car: car))));
-    await tester.pumpAndSettle();
-    // assert
-    expect(find.byType(CachedNetworkImage), findsOneWidget);
-    expect(find.byType(Text), findsExactly(5));
+  group('verify Car details view', () {
+    testWidgets('verify car details when Cars list exist', (tester) async {
+      // arrange
+      final car = CarModel(
+        id: "1",
+        name: 'Mercedes Benz Mercielago',
+        manufacturer: 'Mazda',
+        model: 'Cruze',
+        fuel: 'Gasoline',
+        type: 'Crew Cab Pickup',
+        image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
+      );
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CarDetailsView(args: CarDetailsArgs(car: car)),
+        ),
+      );
+      await tester.pumpAndSettle();
+      // assert
+      expect(find.byType(CachedNetworkImage), findsOneWidget);
+      expect(find.byType(Text), findsExactly(5));
+    });
+
+    testWidgets('verify car details when deeplinkId', (tester) async {
+      // arrange
+      await tester.pumpWidget(
+        MaterialApp(
+          home: CarDetailsView(args: CarDetailsArgs(deepLinkId:"0")),
+        ),
+      );
+      await tester.pumpAndSettle();
+      // assert
+      expect(find.byType(CachedNetworkImage), findsOneWidget);
+      expect(find.byType(Text), findsExactly(5));
+    });
   });
 }
