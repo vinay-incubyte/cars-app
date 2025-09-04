@@ -49,7 +49,12 @@ class CarsRepositoryImpl with LoggerMixin implements CarsRepository {
 
   @override
   Future<Either<Failure, CarEntity>> getById(String id) async {
-    final car = await carsRemoteDataSource.fetchById(id);
-    return Right(car);
+    try {
+      final car = await carsRemoteDataSource.fetchById(id);
+      return Right(car);
+    } on Exception catch (e) {
+      debugLog("CarsRemoteDataSource by Id: $e");
+      return Left(ServerFailure(msg: "Server issue"));
+    }
   }
 }
