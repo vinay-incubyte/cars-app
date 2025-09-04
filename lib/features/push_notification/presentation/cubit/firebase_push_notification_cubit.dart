@@ -28,6 +28,10 @@ class FirebasePushNotificationCubit extends Cubit<FirebasePushNotificationState>
 
     if (!isPermission) return;
 
+    final fcmResponse = await getFcmTokenUsecase.call();
+    final fcm = fcmResponse.fold((failure) => failure.msg, (fcm) => fcm);
+    debugLog("FCM: $fcm");
+
     FirebaseMessaging.onMessage.listen((message) {
       // print("Foreground message: ${message.notification?.toMap()}");
       // Show local notification if needed

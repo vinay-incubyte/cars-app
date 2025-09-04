@@ -33,6 +33,7 @@ void main() {
     test('verify permission request', () async {
       // arrange
       when(permissionUsecase.call()).thenAnswer((_) async => Right(true));
+      when(getFcmTokenUsecase.call()).thenAnswer((_) async => Right('fcm'));
       // act
       await pushNotificationCubit.init();
       // assert
