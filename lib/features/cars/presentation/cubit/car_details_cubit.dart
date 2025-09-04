@@ -1,3 +1,4 @@
+import 'package:cars_app/core/mixns/logger_mixin.dart';
 import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
 import 'package:cars_app/features/cars/domain/usecases/fetch_car_by_id_usecase.dart';
 import 'package:equatable/equatable.dart';
@@ -7,7 +8,7 @@ import 'package:injectable/injectable.dart';
 part 'car_details_state.dart';
 
 @injectable
-class CarDetailsCubit extends Cubit<CarDetailsState> {
+class CarDetailsCubit extends Cubit<CarDetailsState> with LoggerMixin {
   CarDetailsCubit({required this.fetchCarByIdUsecase})
     : super(CarDetailsInitial());
   final FetchCarByIdUsecase fetchCarByIdUsecase;
@@ -15,8 +16,14 @@ class CarDetailsCubit extends Cubit<CarDetailsState> {
   void fetchById(String id) async {
     emit(CarDetailsLoading());
     final response = await fetchCarByIdUsecase.call(id);
-    response.fold((failure) {}, (car) {
-      emit(CarDetailsLoaded(car: car));
-    });
+    response.fold(
+      (failure) {
+        debugLog("CarDetailsCubit : ${failure.msg}");
+        emit(CarDetailsLoadError(error: failure.msg));
+      },
+      (car) {
+        emit(CarDetailsLoaded(car: car));
+      },
+    );
   }
 }
