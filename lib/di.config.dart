@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:dio/dio.dart' as _i361;
+import 'package:firebase_messaging/firebase_messaging.dart' as _i892;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
@@ -24,6 +25,18 @@ import 'features/cars/data/repositories/cars_repository_impl.dart' as _i1;
 import 'features/cars/domain/repositories/cars_repository.dart' as _i441;
 import 'features/cars/domain/usecases/fetch_cars_usecase.dart' as _i649;
 import 'features/cars/presentation/cubit/cars_cubit.dart' as _i969;
+import 'features/push_notification/data/data_source/remote_push_notification_data_source.dart'
+    as _i981;
+import 'features/push_notification/data/repositories/push_notification_repository_impl.dart'
+    as _i701;
+import 'features/push_notification/domain/respositories/push_notification_repository.dart'
+    as _i997;
+import 'features/push_notification/domain/usecases/get_fcm_token_usecase.dart'
+    as _i761;
+import 'features/push_notification/domain/usecases/push_notification_permission_usecase.dart'
+    as _i900;
+import 'features/push_notification/presentation/cubit/firebase_push_notification_cubit.dart'
+    as _i710;
 
 extension GetItInjectableX on _i174.GetIt {
   // initializes the registration of main-scope dependencies inside of GetIt
@@ -36,6 +49,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i973.InternetConnectionChecker>(
       () => registerModule.internetConnectionChecker,
     );
+    gh.lazySingleton<_i892.FirebaseMessaging>(
+      () => registerModule.firebaseMessaging,
+    );
     gh.lazySingleton<_i361.Dio>(() => registerModule.dio());
     await gh.lazySingletonAsync<_i779.Database>(
       () => registerModule.carsDB(),
@@ -46,11 +62,39 @@ extension GetItInjectableX on _i174.GetIt {
         connectionChecker: gh<_i973.InternetConnectionChecker>(),
       ),
     );
+    gh.lazySingleton<_i981.RemotePushNotificationDataSource>(
+      () => _i981.FirebaseRemotePushNotification(
+        firebaseMessaging: gh<_i892.FirebaseMessaging>(),
+      ),
+    );
     gh.lazySingleton<_i849.CarsLocalDataSource>(
       () => _i849.CarsLocalDataSourceImpl(db: gh<_i779.Database>()),
     );
+    gh.lazySingleton<_i997.PushNotificationRepository>(
+      () => _i701.PushNotificationRepositoryImpl(
+        remotePushNotificationDataSource:
+            gh<_i981.RemotePushNotificationDataSource>(),
+      ),
+    );
     gh.lazySingleton<_i577.CarsRemoteDataSource>(
       () => _i577.CarsRemoteDataSourceImpl(dio: gh<_i361.Dio>()),
+    );
+    gh.lazySingleton<_i900.PushNotificationPermissionUsecase>(
+      () => _i900.PushNotificationPermissionUsecase(
+        pushNotificationRepository: gh<_i997.PushNotificationRepository>(),
+      ),
+    );
+    gh.lazySingleton<_i761.GetFcmTokenUsecase>(
+      () => _i761.GetFcmTokenUsecase(
+        pushNotificationRepository: gh<_i997.PushNotificationRepository>(),
+      ),
+    );
+    gh.factory<_i710.FirebasePushNotificationCubit>(
+      () => _i710.FirebasePushNotificationCubit(
+        getFcmTokenUsecase: gh<_i761.GetFcmTokenUsecase>(),
+        notificationPermissionUsecase:
+            gh<_i900.PushNotificationPermissionUsecase>(),
+      ),
     );
     gh.lazySingleton<_i441.CarsRepository>(
       () => _i1.CarsRepositoryImpl(

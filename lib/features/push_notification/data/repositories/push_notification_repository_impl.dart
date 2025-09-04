@@ -3,7 +3,9 @@ import 'package:cars_app/core/mixns/logger_mixin.dart';
 import 'package:cars_app/features/push_notification/data/data_source/remote_push_notification_data_source.dart';
 import 'package:cars_app/features/push_notification/domain/respositories/push_notification_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:injectable/injectable.dart';
 
+@LazySingleton(as: PushNotificationRepository)
 class PushNotificationRepositoryImpl
     with LoggerMixin
     implements PushNotificationRepository {

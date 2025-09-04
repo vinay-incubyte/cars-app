@@ -3,15 +3,18 @@ import 'package:cars_app/features/push_notification/domain/usecases/get_fcm_toke
 import 'package:cars_app/features/push_notification/domain/usecases/push_notification_permission_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 part 'firebase_push_notification_state.dart';
 
+@injectable
 class FirebasePushNotificationCubit extends Cubit<FirebasePushNotificationState>
     with LoggerMixin {
   FirebasePushNotificationCubit({
     required this.getFcmTokenUsecase,
     required this.notificationPermissionUsecase,
   }) : super(FirebasePushNotificationInitial());
+
   final GetFcmTokenUsecase getFcmTokenUsecase;
   final PushNotificationPermissionUsecase notificationPermissionUsecase;
 

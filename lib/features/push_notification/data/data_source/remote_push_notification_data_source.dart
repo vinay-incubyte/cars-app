@@ -1,11 +1,13 @@
 import 'package:cars_app/core/expections.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:injectable/injectable.dart';
 
 abstract class RemotePushNotificationDataSource {
   Future<bool> requestPermission();
   Future<String> getFCM();
 }
 
+@LazySingleton(as: RemotePushNotificationDataSource)
 class FirebaseRemotePushNotification
     implements RemotePushNotificationDataSource {
   final FirebaseMessaging firebaseMessaging;
