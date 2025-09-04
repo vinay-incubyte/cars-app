@@ -49,5 +49,16 @@ void main() {
       // assert
       verify(permissionUsecase.call()).called(1);
     });
+
+    test('verify get FCM success if permission allowed', () async {
+      // arrange
+      when(getFcmTokenUsecase.call()).thenAnswer((_) async => Right('fcm'));
+      when(permissionUsecase.call()).thenAnswer((_) async => Right(true));
+      // act
+      await pushNotificationCubit.init();
+      // assert
+      verify(permissionUsecase.call()).called(1);
+      verify(getFcmTokenUsecase.call()).called(1);
+    });
   });
 }
