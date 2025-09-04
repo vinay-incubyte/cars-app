@@ -10,8 +10,8 @@ class CarDetailsArgs {
 }
 
 class CarDetailsView extends StatelessWidget {
-  const CarDetailsView({super.key, required this.car});
-  final CarEntity car;
+  const CarDetailsView({super.key, required this.args});
+  final CarDetailsArgs args;
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +21,10 @@ class CarDetailsView extends StatelessWidget {
         child: Column(
           children: [
             Hero(
-              tag: car.id,
+              tag: args.car.id,
               transitionOnUserGestures: true,
               child: CachedNetworkImage(
-                imageUrl: car.image,
+                imageUrl: args.car.image,
                 fit: BoxFit.fitWidth,
                 height: 250,
                 width: double.infinity,
@@ -58,13 +58,13 @@ class CarDetailsView extends StatelessWidget {
         spacing: 10,
         children: [
           Text(
-            car.name,
+            args.car.name,
             style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
           ),
-          Text("Manufacturer : ${car.manufacturer}", style: _textStyle),
-          Text("Model : ${car.model}", style: _textStyle),
-          Text("Type : ${car.type}", style: _textStyle),
-          Text("Fuel type : ${car.fuel}", style: _textStyle),
+          Text("Manufacturer : ${args.car.manufacturer}", style: _textStyle),
+          Text("Model : ${args.car.model}", style: _textStyle),
+          Text("Type : ${args.car.type}", style: _textStyle),
+          Text("Fuel type : ${args.car.fuel}", style: _textStyle),
         ],
       ),
     );
