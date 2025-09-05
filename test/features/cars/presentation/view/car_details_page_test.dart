@@ -91,5 +91,34 @@ void main() {
       // assert
       expect(find.text('Server issue'), findsOne);
     });
+
+    testWidgets('verify CarDetailsView back flow when from deeplink', (tester) async {
+      final car = CarModel(
+        id: "0",
+        name: 'Mercedes Benz Mercielago',
+        manufacturer: 'Mazda',
+        model: 'Cruze',
+        fuel: 'Gasoline',
+        type: 'Crew Cab Pickup',
+        image: 'http://www.regcheck.org.uk/image.aspx/@TWF6ZGEgQ3J1emU=',
+      );
+      when(fetchCarByIdUsecase.call("0")).thenAnswer((_) async => Right(car));
+      await tester.pumpWidget(
+        BlocProvider.value(
+          value: carDetailsCubit,
+          child: MaterialApp(
+            home: CarDetailsView(args: CarDetailsArgs(deepLinkId: "0")),
+          ),
+        ),
+      );
+      expect(find.byType(CircularProgressIndicator), findsOne);
+      await tester.pumpAndSettle();
+      
+      expect(find.byIcon(Icons.clear), findsOne);
+      await tester.tap(find.byIcon(Icons.clear));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Cars'), findsOne);
+    });
   });
 }
