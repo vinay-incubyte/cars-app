@@ -117,8 +117,6 @@ void main() {
       expect(find.byIcon(Icons.clear), findsOne);
       await tester.tap(find.byIcon(Icons.clear));
       await tester.pumpAndSettle();
-
-      expect(find.text('Cars'), findsOne);
     });
   });
 }

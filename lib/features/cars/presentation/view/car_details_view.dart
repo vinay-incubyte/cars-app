@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cars_app/core/extensions/navigation_extensions.dart';
 import 'package:cars_app/features/cars/presentation/cubit/car_details_cubit.dart';
 import 'package:cars_app/features/cars/presentation/view/error/cars_list_error.dart';
+import 'package:cars_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:cars_app/features/cars/domain/entities/car_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,18 +35,32 @@ class _CarDetailsViewState extends State<CarDetailsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: BlocBuilder<CarDetailsCubit, CarDetailsState>(
-        builder: (context, state) {
-          if (state is CarDetailsLoaded) {
-            return _buildBody(state.car);
-          }
-          if (state is CarDetailsLoadError) {
-            return CarsListError(error: state.error);
-          }
-          return Center(child: CircularProgressIndicator());
-        },
+    return PopScope(
+      canPop: widget.args.deepLinkId == null,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        context.pushPopUntil(AppRoutes.cars);
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leading: widget.args.deepLinkId != null
+              ? IconButton(
+                  onPressed: () => context.pushPopUntil(AppRoutes.cars),
+                  icon: Icon(Icons.clear),
+                )
+              : null,
+        ),
+        body: BlocBuilder<CarDetailsCubit, CarDetailsState>(
+          builder: (context, state) {
+            if (state is CarDetailsLoaded) {
+              return _buildBody(state.car);
+            }
+            if (state is CarDetailsLoadError) {
+              return CarsListError(error: state.error);
+            }
+            return Center(child: CircularProgressIndicator());
+          },
+        ),
       ),
     );
   }

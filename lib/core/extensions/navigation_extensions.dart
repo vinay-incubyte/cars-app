@@ -8,4 +8,13 @@ extension NavigationExtension on BuildContext {
   void popRoute({dynamic result}) {
     Navigator.pop(this, result);
   }
+
+  Future pushPopUntil(String routeName, {Object? arguments}) async {
+    await Navigator.pushNamedAndRemoveUntil(
+      this,
+      routeName,
+      (route) => false,
+      arguments: arguments,
+    );
+  }
 }
