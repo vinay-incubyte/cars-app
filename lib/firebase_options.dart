@@ -59,10 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBbvydQYGnT0G_HUScxN_EB-STy5SWqeo4',
-    appId: '1:257536597715:ios:aa85698b25d95f5043be26',
+    appId: '1:257536597715:ios:a15283d2d5248d6f43be26',
     messagingSenderId: '257536597715',
     projectId: 'cars-app-e2b16',
     storageBucket: 'cars-app-e2b16.firebasestorage.app',
-    iosBundleId: 'com.example.carsApp',
+    iosBundleId: 'com.example.cars-app',
   );
 }
